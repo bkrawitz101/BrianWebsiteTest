@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Page - Element Map</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: #00d4ff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .map-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00d4ff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .map-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+        }
+
+        .page-section {
+            border: 2px solid #ff4500;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 69, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #ff4500;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .element-box {
+            border: 2px solid #00d4ff;
+            border-radius: 6px;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(0, 212, 255, 0.1);
+            position: relative;
+        }
+
+        .element-title {
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+
+        .element-details {
+            font-size: 0.9rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .element-position {
+            font-size: 0.8rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        .video-element {
+            border-color: #ff00ff;
+            background: rgba(255, 0, 255, 0.1);
+        }
+
+        .video-element .element-title {
+            color: #ff00ff;
+        }
+
+        .interactive-element {
+            border-color: #ffff00;
+            background: rgba(255, 255, 0, 0.1);
+        }
+
+        .interactive-element .element-title {
+            color: #ffff00;
+        }
+
+        .text-element {
+            border-color: #00ff00;
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .text-element .element-title {
+            color: #00ff00;
+        }
+
+        .pseudo-element {
+            border-color: #ff8800;
+            background: rgba(255, 136, 0, 0.1);
+            border-style: dashed;
+        }
+
+        .pseudo-element .element-title {
+            color: #ff8800;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border: 2px solid;
+            border-radius: 3px;
+        }
+
+        .legend-text {
+            font-size: 0.9rem;
+        }
+
+        .structure-diagram {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .diagram-title {
+            font-size: 1.2rem;
+            color: #00d4ff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .tree-structure {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #ffffff;
+            line-height: 1.8;
+        }
+
+        .tree-indent {
+            margin-left: 20px;
+        }
+
+        .tree-element {
+            color: #00d4ff;
+        }
+
+        .tree-content {
+            color: #ffffff;
+        }
+
+        .tree-video {
+            color: #ff00ff;
+        }
+
+        .tree-interactive {
+            color: #ffff00;
+        }
+
+        .tree-text {
+            color: #00ff00;
+        }
+
+        .tree-pseudo {
+            color: #ff8800;
+            font-style: italic;
+        }
+
+        .visual-layout {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+            min-height: 800px;
+        }
+
+        .layout-title {
+            font-size: 1.2rem;
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .page-outline {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffffff;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .element-outline {
+            position: absolute;
+            border: 2px solid #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 0.7rem;
+            padding: 5px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-width: 80px;
+            min-height: 30px;
+            transition: opacity 0.3s ease;
+        }
+
+        .element-outline.video {
+            border-color: #ff00ff;
+            background: rgba(255, 0, 255, 0.2);
+        }
+
+        .element-outline.interactive {
+            border-color: #ffff00;
+            background: rgba(255, 255, 0, 0.2);
+        }
+
+        .element-outline.text {
+            border-color: #00ff00;
+            background: rgba(0, 255, 0, 0.2);
+        }
+
+        .element-outline.pseudo {
+            border-style: dashed;
+            border-color: #ff8800;
+            background: rgba(255, 136, 0, 0.2);
+        }
+
+        .element-outline.layer-1 {
+            border-width: 3px;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .element-outline.layer-2 {
+            border-width: 2px;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .element-outline.layer-3 {
+            border-width: 1px;
+        }
+
+        .element-outline.layer-4 {
+            border-width: 1px;
+            opacity: 0.8;
+        }
+
+        .element-outline.layer-5 {
+            border-width: 1px;
+            opacity: 0.6;
+        }
+
+        .toggle-all-btn {
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .toggle-all-btn:hover {
+            background: #00b8e6;
+        }
+
+        .reset-btn {
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .reset-btn:hover {
+            background: #ff2222;
+        }
+
+        .element-name {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .element-dimensions {
+            font-size: 0.6rem;
+            opacity: 0.8;
+        }
+
+        .element-position-info {
+            font-size: 0.6rem;
+            opacity: 0.7;
+        }
+
+        .layout-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px solid #00d4ff;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .layout-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .layout-legend-color {
+            width: 15px;
+            height: 15px;
+            border: 2px solid;
+            border-radius: 2px;
+        }
+
+        .coordinate-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #ffffff;
+            border: 1px solid #00d4ff;
+        }
+
+        .control-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            padding: 15px;
+            width: 300px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 10000;
+            color: #ffffff;
+        }
+
+        .control-panel h4 {
+            color: #00d4ff;
+            margin: 0 0 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+        }
+
+        .control-group h5 {
+            color: #00d4ff;
+            margin: 0 0 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 0.8rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 8px;
+            accent-color: #00d4ff;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .layer-indicator {
+            background: #00d4ff;
+            color: #000;
+            font-size: 0.6rem;
+            padding: 2px 4px;
+            border-radius: 2px;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+
+        .element-outline.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <h1 class="map-title">About Page - Element Map</h1>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="border-color: #ff4500; background: rgba(255, 69, 0, 0.1);"></div>
+                <span class="legend-text">Page Sections</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="border-color: #00d4ff; background: rgba(0, 212, 255, 0.1);"></div>
+                <span class="legend-text">Main Elements</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="border-color: #ff00ff; background: rgba(255, 0, 255, 0.1);"></div>
+                <span class="legend-text">Video Elements</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="border-color: #ffff00; background: rgba(255, 255, 0, 0.1);"></div>
+                <span class="legend-text">Interactive Elements</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="border-color: #00ff00; background: rgba(0, 255, 0, 0.1);"></div>
+                <span class="legend-text">Text Elements</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="border-color: #ff8800; background: rgba(255, 136, 0, 0.1); border-style: dashed;"></div>
+                <span class="legend-text">Pseudo Elements</span>
+            </div>
+        </div>
+
+        <div class="page-section">
+            <h2 class="section-title">Main About Section</h2>
+            
+            <div class="element-box">
+                <div class="element-title">section#about.content-section.active</div>
+                <div class="element-details">Main container for entire About page</div>
+                <div class="element-position">Position: relative, Display: block</div>
+            </div>
+
+            <div class="element-box video-element">
+                <div class="element-title">.main-content-background-video</div>
+                <div class="element-details">Full main content background video container</div>
+                <div class="element-position">Position: absolute, z-index: -1, covers entire main content</div>
+                <div class="element-details">Video: Starfield.mp4 (autoplay, muted, loop)</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">.section-header</div>
+                <div class="element-details">Section title container</div>
+                <div class="element-position">Margin-bottom: 2rem</div>
+            </div>
+
+            <div class="element-box text-element">
+                <div class="element-title">h2 "About"</div>
+                <div class="element-details">Main section title (still shows "About" in header)</div>
+                <div class="element-position">Font-size: 2.8rem, Color: #00d4ff</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">.section-line</div>
+                <div class="element-details">Decorative gradient line under title</div>
+                <div class="element-position">Width: 80px, Height: 3px, Gradient background</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">.about-content</div>
+                <div class="element-details">Main content wrapper</div>
+                <div class="element-position">Width: 100%, Position: relative, z-index: 1</div>
+            </div>
+
+            <div class="element-box interactive-element">
+                <div class="element-title">.mission-statement.clickable-entry</div>
+                <div class="element-details">Main mission statement container (expandable)</div>
+                <div class="element-position">Background: rgba(0,0,0,0.7), Border: 2px solid rgba(0,212,255,0.4)</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">.entry-header</div>
+                <div class="element-details">Header container for mission statement</div>
+                <div class="element-position">Contains title and click indicator</div>
+            </div>
+
+            <div class="element-box text-element">
+                <div class="element-title">.entry-title "Mission Statement"</div>
+                <div class="element-details">Mission statement title</div>
+                <div class="element-position">h3 element</div>
+            </div>
+
+            <div class="element-box interactive-element">
+                <div class="element-title">.click-indicator</div>
+                <div class="element-details">Expandable arrow icon</div>
+                <div class="element-position">Contains chevron-down icon</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">.entry-content</div>
+                <div class="element-details">Expandable content area</div>
+                <div class="element-position">Hidden by default, shows on click</div>
+            </div>
+
+            <div class="element-box video-element">
+                <div class="element-title">.mission-video-background</div>
+                <div class="element-details">Video background for mission statement</div>
+                <div class="element-position">Position: absolute, z-index: -1, covers content area</div>
+                <div class="element-details">Video: Path_Of_Flow.mp4 (autoplay, muted, loop)</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">.hal-voice</div>
+                <div class="element-details">HAL 9000 voice quotes container</div>
+                <div class="element-position">Background: rgba(255,0,0,0.1), Border: 1px solid rgba(255,0,0,0.3)</div>
+            </div>
+
+            <div class="element-box text-element">
+                <div class="element-title">.hal-text (2 instances)</div>
+                <div class="element-details">Individual HAL quote spans</div>
+                <div class="element-position">Color: #ff0000, Text-shadow: 0 0 10px rgba(255,0,0,0.8)</div>
+                <div class="element-details">Quotes: "I'm sorry, Dave. I'm afraid I can't do that." and "I know I've made some very poor decisions recently..."</div>
+            </div>
+
+            <div class="element-box text-element">
+                <div class="element-title">.mission-text.typing-text</div>
+                <div class="element-details">Mission statement content (no typing animation, shows immediately)</div>
+                <div class="element-position">Empty by default, populated by JavaScript, no speech synthesis</div>
+            </div>
+        </div>
+
+        <div class="page-section">
+            <h2 class="section-title">Pseudo Elements & Effects</h2>
+            
+            <div class="element-box pseudo-element">
+                <div class="element-title">.mission-statement::before</div>
+                <div class="element-details">Pseudo-element for additional styling</div>
+                <div class="element-position">Content: '', Position: absolute</div>
+            </div>
+
+            <div class="element-box pseudo-element">
+                <div class="element-title">.clickable-entry::after</div>
+                <div class="element-details">Pseudo-element for hover effects</div>
+                <div class="element-position">Content: '', Position: absolute</div>
+            </div>
+
+            <div class="element-box pseudo-element">
+                <div class="element-title">.clickable-entry:hover::after</div>
+                <div class="element-details">Pseudo-element for hover animations</div>
+                <div class="element-position">Enhanced styling on hover</div>
+            </div>
+        </div>
+
+        <div class="page-section">
+            <h2 class="section-title">Visual Effects & Styling</h2>
+            
+            <div class="element-box">
+                <div class="element-title">Backdrop Filter Effects</div>
+                <div class="element-details">Glass morphism styling on containers</div>
+                <div class="element-position">backdrop-filter: blur(15px)</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">Box Shadows</div>
+                <div class="element-details">Glow effects around containers</div>
+                <div class="element-position">box-shadow: 0 0 40px rgba(0,212,255,0.2)</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">Border Styling</div>
+                <div class="element-details">Cyan borders with transparency</div>
+                <div class="element-position">border: 2px solid rgba(0,212,255,0.4)</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">Video Opacity</div>
+                <div class="element-details">30% opacity for background videos</div>
+                <div class="element-position">opacity: 0.3</div>
+            </div>
+        </div>
+
+        <div class="structure-diagram">
+            <h3 class="diagram-title">HTML Structure Tree</h3>
+            <div class="tree-structure">
+                <div class="tree-element">section#about.content-section.active</div>
+                <div class="tree-indent">
+                                    <div class="tree-video">div.main-content-background-video</div>
+                <div class="tree-indent">
+                    <div class="tree-video">video (Starfield.mp4)</div>
+                </div>
+                    <div class="tree-element">div.section-header</div>
+                    <div class="tree-indent">
+                        <div class="tree-text">h2 "About"</div>
+                        <div class="tree-element">div.section-line</div>
+                    </div>
+                    <div class="tree-element">div.about-content</div>
+                    <div class="tree-indent">
+                        <div class="tree-interactive">div.mission-statement.clickable-entry</div>
+                        <div class="tree-indent">
+                            <div class="tree-element">div.entry-header</div>
+                            <div class="tree-indent">
+                                <div class="tree-text">h3.entry-title "Mission Statement"</div>
+                                <div class="tree-interactive">div.click-indicator</div>
+                                <div class="tree-indent">
+                                    <div class="tree-text">i.fas.fa-chevron-down</div>
+                                </div>
+                            </div>
+                            <div class="tree-element">div.entry-content</div>
+                            <div class="tree-indent">
+                                <div class="tree-video">div.mission-video-background</div>
+                                <div class="tree-indent">
+                                    <div class="tree-video">video (Path_Of_Flow.mp4)</div>
+                                </div>
+                                <div class="tree-element">div.hal-voice</div>
+                                <div class="tree-indent">
+                                    <div class="tree-text">span.hal-text (Quote 1)</div>
+                                    <div class="tree-text">span.hal-text (Quote 2)</div>
+                                </div>
+                                <div class="tree-text">p.mission-text.typing-text (shows immediately, no typing)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-section">
+            <h2 class="section-title">Interactive Features</h2>
+            
+            <div class="element-box interactive-element">
+                <div class="element-title">Click-to-Expand Functionality</div>
+                <div class="element-details">Mission statement is expandable</div>
+                <div class="element-position">JavaScript controlled</div>
+            </div>
+
+            <div class="element-box interactive-element">
+                <div class="element-title">Hover Animations</div>
+                <div class="element-details">Visual feedback on interaction</div>
+                <div class="element-position">CSS transitions and transforms</div>
+            </div>
+
+            <div class="element-box interactive-element">
+                <div class="element-title">Typing Animation</div>
+                <div class="element-details">Dynamic text effects</div>
+                <div class="element-position">JavaScript controlled</div>
+            </div>
+
+            <div class="element-box interactive-element">
+                <div class="element-title">Video Autoplay</div>
+                <div class="element-details">Background videos play automatically</div>
+                <div class="element-position">HTML5 video attributes</div>
+            </div>
+        </div>
+
+        <div class="page-section">
+            <h2 class="section-title">Design Elements</h2>
+            
+            <div class="element-box">
+                <div class="element-title">Cyberpunk Aesthetic</div>
+                <div class="element-details">Neon colors and futuristic styling</div>
+                <div class="element-position">Primary colors: #00d4ff, #ff4500</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">Neural Network Theme</div>
+                <div class="element-details">Consistent with overall site design</div>
+                <div class="element-position">Matches navigation styling</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">2001: A Space Odyssey References</div>
+                <div class="element-details">HAL 9000 voice quotes</div>
+                <div class="element-position">Red text styling for quotes</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">Gradient Effects</div>
+                <div class="element-details">Multiple gradient backgrounds and borders</div>
+                <div class="element-position">linear-gradient and radial-gradient</div>
+            </div>
+        </div>
+
+        <div class="page-section">
+            <h2 class="section-title">Content Summary</h2>
+            
+            <div class="element-box">
+                <div class="element-title">Total Elements</div>
+                <div class="element-details">22 main elements + pseudo elements</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">Videos</div>
+                <div class="element-details">2 videos: Starfield.mp4 (background), Path_Of_Flow.mp4 (mission)</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">Interactive Elements</div>
+                <div class="element-details">4 interactive features: expand, hover, typing, autoplay</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">Text Content</div>
+                <div class="element-details">3 text elements: title, HAL quotes, typing text</div>
+            </div>
+
+            <div class="element-box">
+                <div class="element-title">Styling Effects</div>
+                <div class="element-details">4 visual effects: blur, shadows, borders, opacity</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="visual-layout">
+        <h3 class="layout-title">Visual Layout of About Page</h3>
+        
+        <div class="layout-legend">
+            <div class="layout-legend-item">
+                <div class="layout-legend-color" style="border-color: #ffffff; background: rgba(255, 255, 255, 0.1);"></div>
+                <span class="legend-text">Main Elements</span>
+            </div>
+            <div class="layout-legend-item">
+                <div class="layout-legend-color" style="border-color: #ff00ff; background: rgba(255, 0, 255, 0.2);"></div>
+                <span class="legend-text">Video Elements</span>
+            </div>
+            <div class="layout-legend-item">
+                <div class="layout-legend-color" style="border-color: #ffff00; background: rgba(255, 255, 0, 0.2);"></div>
+                <span class="legend-text">Interactive Elements</span>
+            </div>
+            <div class="layout-legend-item">
+                <div class="layout-legend-color" style="border-color: #00ff00; background: rgba(0, 255, 0, 0.2);"></div>
+                <span class="legend-text">Text Elements</span>
+            </div>
+            <div class="layout-legend-item">
+                <div class="layout-legend-color" style="border-color: #ff8800; background: rgba(255, 136, 0, 0.2); border-style: dashed;"></div>
+                <span class="legend-text">Pseudo Elements</span>
+            </div>
+        </div>
+
+        <div class="page-outline">
+            <!-- HEADER SECTION (Fixed Position) -->
+            <!-- Header Container -->
+            <div class="element-outline layer-1" style="top: 0; left: 0; width: 100%; height: 120px;">
+                <div class="element-name">.header</div>
+                <div class="element-dimensions">100% x 120px</div>
+                <div class="element-position-info">Position: fixed, top: 0, z-index: 1000</div>
+            </div>
+
+            <!-- Header Card -->
+            <div class="element-outline layer-1" style="top: 10px; left: 50px; width: calc(100% - 100px); height: 100px;">
+                <div class="element-name">.header-card</div>
+                <div class="element-dimensions">calc(100% - 100px) x 100px</div>
+                <div class="element-position-info">Background: rgba(0,0,0,0.9), border-radius: 25px</div>
+            </div>
+
+            <!-- Header Content Wrapper -->
+            <div class="element-outline layer-1" style="top: 15px; left: 60px; width: calc(100% - 120px); height: 90px;">
+                <div class="element-name">.header-content-wrapper</div>
+                <div class="element-dimensions">calc(100% - 120px) x 90px</div>
+                <div class="element-position-info">Display: flex, justify-content: center, padding: 1.5rem 2rem</div>
+            </div>
+
+            <!-- Header Background Video -->
+            <div class="element-outline video layer-2" style="top: 15px; left: 60px; width: calc(100% - 120px); height: 90px;">
+                <div class="element-name">.header-background-video</div>
+                <div class="element-dimensions">calc(100% - 120px) x 90px</div>
+                <div class="element-position-info">Position: absolute, z-index: -1</div>
+                <div class="element-dimensions">Video: Starfield.mp4</div>
+            </div>
+
+            <!-- Header Text Container (Centered) -->
+            <div class="element-outline text layer-4" style="top: 20px; left: 50%; transform: translateX(-50%); width: 400px; height: 80px;">
+                <div class="element-name">.header-text</div>
+                <div class="element-dimensions">400px x 80px</div>
+                <div class="element-position-info">Display: flex, column, align-items: flex-start</div>
+            </div>
+
+            <!-- Name (Centered) -->
+            <div class="element-outline text layer-4" style="top: 25px; left: 50%; transform: translateX(-50%); width: 200px; height: 35px;">
+                <div class="element-name">.name</div>
+                <div class="element-dimensions">200px x 35px</div>
+                <div class="element-position-info">"Brian Krawitz", font-size: 2.8rem</div>
+            </div>
+
+            <!-- Quote (Centered) -->
+            <div class="element-outline text layer-4" style="top: 65px; left: 50%; transform: translateX(-50%); width: 350px; height: 25px;">
+                <div class="element-name">.quote</div>
+                <div class="element-dimensions">350px x 25px</div>
+                <div class="element-position-info">"Bridging the gap...", font-size: 1.4rem</div>
+            </div>
+
+            <!-- Profile Picture (Centered) -->
+            <div class="element-outline layer-1" style="top: 20px; left: calc(50% + 220px); width: 80px; height: 80px;">
+                <div class="element-name">.profile-picture</div>
+                <div class="element-dimensions">80px x 80px</div>
+                <div class="element-position-info">Border-radius: 50%, object-fit: cover</div>
+            </div>
+
+            <!-- NAVIGATION SECTION -->
+            <!-- Navigation Container -->
+            <div class="element-outline layer-1" style="top: 130px; left: 0; width: 100%; height: 80px;">
+                <div class="element-name">.nav-container</div>
+                <div class="element-dimensions">100% x 80px</div>
+                <div class="element-position-info">Padding: 0 2rem, z-index: 1000</div>
+            </div>
+
+            <!-- Navigation Tabs Container -->
+            <div class="element-outline layer-1" style="top: 140px; left: 50px; width: calc(100% - 100px); height: 60px;">
+                <div class="element-name">.nav-tabs</div>
+                <div class="element-dimensions">calc(100% - 100px) x 60px</div>
+                <div class="element-position-info">Display: flex, justify-content: center, gap: 3rem</div>
+            </div>
+
+            <!-- Navigation Tab 1 (Mission Statement) -->
+            <div class="element-outline interactive layer-3" style="top: 140px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px;">
+                <div class="element-name">.nav-tab[data-section="about"]</div>
+                <div class="element-dimensions">60px x 60px</div>
+                <div class="element-position-info">Border-radius: 50%, background: radial-gradient, Label: "Mission Statement"</div>
+            </div>
+
+            <!-- Navigation Tab 2 (Experience) -->
+            <div class="element-outline interactive layer-3" style="top: 140px; left: calc(50% + 90px); width: 60px; height: 60px;">
+                <div class="element-name">.nav-tab[data-section="experience"]</div>
+                <div class="element-dimensions">60px x 60px</div>
+                <div class="element-position-info">Border-radius: 50%, background: radial-gradient</div>
+            </div>
+
+            <!-- Navigation Tab 3 (Projects) -->
+            <div class="element-outline interactive layer-3" style="top: 140px; left: calc(50% + 180px); width: 60px; height: 60px;">
+                <div class="element-name">.nav-tab[data-section="projects"]</div>
+                <div class="element-dimensions">60px x 60px</div>
+                <div class="element-position-info">Border-radius: 50%, background: radial-gradient</div>
+            </div>
+
+            <!-- Navigation Tab 4 (Education) -->
+            <div class="element-outline interactive layer-3" style="top: 140px; left: calc(50% - 90px); width: 60px; height: 60px;">
+                <div class="element-name">.nav-tab[data-section="education"]</div>
+                <div class="element-dimensions">60px x 60px</div>
+                <div class="element-position-info">Border-radius: 50%, background: radial-gradient</div>
+            </div>
+
+            <!-- Navigation Tab 5 (Contact) -->
+            <div class="element-outline interactive layer-3" style="top: 140px; left: calc(50% - 180px); width: 60px; height: 60px;">
+                <div class="element-name">.nav-tab[data-section="contact"]</div>
+                <div class="element-dimensions">60px x 60px</div>
+                <div class="element-position-info">Border-radius: 50%, background: radial-gradient</div>
+            </div>
+
+            <!-- MAIN CONTENT SECTION -->
+            <!-- Main Content Container -->
+            <div class="element-outline layer-1" style="top: 220px; left: 0; width: 100%; height: 480px;">
+                <div class="element-name">.main-content</div>
+                <div class="element-dimensions">100% x 480px</div>
+                <div class="element-position-info">Padding: 0 2rem, margin-top: 0 (desktop), 120px (mobile)</div>
+            </div>
+
+            <!-- About Section Container -->
+            <div class="element-outline layer-1" style="top: 220px; left: 0; width: 100%; height: 480px;">
+                <div class="element-name">section#about</div>
+                <div class="element-dimensions">100% x 480px</div>
+                <div class="element-position-info">Position: relative</div>
+            </div>
+
+            <!-- Main Content Background Video -->
+            <div class="element-outline video layer-2" style="top: 220px; left: 0; width: 100%; height: 480px;">
+                <div class="element-name">.main-content-background-video</div>
+                <div class="element-dimensions">100% x 480px</div>
+                <div class="element-position-info">Position: absolute, z-index: -1</div>
+                <div class="element-dimensions">Video: Starfield.mp4</div>
+            </div>
+
+            <!-- Section Header -->
+            <div class="element-outline layer-1" style="top: 240px; left: 50px; width: calc(100% - 100px); height: 80px;">
+                <div class="element-name">.section-header</div>
+                <div class="element-dimensions">calc(100% - 100px) x 80px</div>
+                <div class="element-position-info">Margin-bottom: 2rem</div>
+            </div>
+
+            <!-- About Title -->
+            <div class="element-outline text layer-4" style="top: 250px; left: 50%; transform: translateX(-50%); width: 200px; height: 40px;">
+                <div class="element-name">h2 "About"</div>
+                <div class="element-dimensions">200px x 40px</div>
+                <div class="element-position-info">Font-size: 2.8rem, text-align: center</div>
+            </div>
+
+            <!-- Section Line -->
+            <div class="element-outline layer-1" style="top: 300px; left: 50%; transform: translateX(-50%); width: 80px; height: 3px;">
+                <div class="element-name">.section-line</div>
+                <div class="element-dimensions">80px x 3px</div>
+                <div class="element-position-info">Gradient background, margin: 0 auto</div>
+            </div>
+
+            <!-- About Content -->
+            <div class="element-outline layer-1" style="top: 340px; left: 50px; width: calc(100% - 100px); height: 360px;">
+                <div class="element-name">.about-content</div>
+                <div class="element-dimensions">calc(100% - 100px) x 360px</div>
+                <div class="element-position-info">Position: relative, z-index: 1</div>
+            </div>
+
+            <!-- Mission Statement Container -->
+            <div class="element-outline interactive layer-3" style="top: 360px; left: 50%; transform: translateX(-50%); width: 70%; height: 200px;">
+                <div class="element-name">.mission-statement</div>
+                <div class="element-dimensions">70% x 200px</div>
+                <div class="element-position-info">Background: rgba(0,0,0,0.7), border-radius: 15px</div>
+            </div>
+
+            <!-- Entry Header -->
+            <div class="element-outline layer-1" style="top: 380px; left: 50%; transform: translateX(-50%); width: 60%; height: 40px;">
+                <div class="element-name">.entry-header</div>
+                <div class="element-dimensions">60% x 40px</div>
+                <div class="element-position-info">Display: flex, justify-content: space-between</div>
+            </div>
+
+            <!-- Mission Statement Title -->
+            <div class="element-outline text layer-4" style="top: 385px; left: 50%; transform: translateX(-50%); width: 200px; height: 30px;">
+                <div class="element-name">.entry-title</div>
+                <div class="element-dimensions">200px x 30px</div>
+                <div class="element-position-info">"Mission Statement", font-size: 1.5rem</div>
+            </div>
+
+            <!-- Click Indicator -->
+            <div class="element-outline interactive layer-3" style="top: 385px; left: calc(50% + 200px); width: 30px; height: 30px;">
+                <div class="element-name">.click-indicator</div>
+                <div class="element-dimensions">30px x 30px</div>
+                <div class="element-position-info">Chevron icon, transition: transform</div>
+            </div>
+
+            <!-- Entry Content (Hidden by default) -->
+            <div class="element-outline layer-1" style="top: 430px; left: 50%; transform: translateX(-50%); width: 60%; height: 120px;">
+                <div class="element-name">.entry-content</div>
+                <div class="element-dimensions">60% x 120px</div>
+                <div class="element-position-info">Hidden by default, display: none</div>
+            </div>
+
+            <!-- Mission Video Background -->
+            <div class="element-outline video layer-2" style="top: 430px; left: 50%; transform: translateX(-50%); width: 60%; height: 120px;">
+                <div class="element-name">.mission-video-background</div>
+                <div class="element-dimensions">60% x 120px</div>
+                <div class="element-position-info">Position: absolute, z-index: -1</div>
+                <div class="element-dimensions">Video: Path_Of_Flow.mp4</div>
+            </div>
+
+            <!-- HAL Voice Container -->
+            <div class="element-outline layer-1" style="top: 450px; left: 50%; transform: translateX(-50%); width: 50%; height: 80px;">
+                <div class="element-name">.hal-voice</div>
+                <div class="element-dimensions">50% x 80px</div>
+                <div class="element-position-info">Background: rgba(255,0,0,0.1), padding: 1rem</div>
+            </div>
+
+            <!-- HAL Text Quote 1 -->
+            <div class="element-outline text layer-4" style="top: 460px; left: 50%; transform: translateX(-50%); width: 40%; height: 25px;">
+                <div class="element-name">.hal-text (1)</div>
+                <div class="element-dimensions">40% x 25px</div>
+                <div class="element-position-info">Color: #ff0000, font-size: 1.1rem</div>
+            </div>
+
+            <!-- HAL Text Quote 2 -->
+            <div class="element-outline text layer-4" style="top: 490px; left: 50%; transform: translateX(-50%); width: 40%; height: 25px;">
+                <div class="element-name">.hal-text (2)</div>
+                <div class="element-dimensions">40% x 25px</div>
+                <div class="element-position-info">Color: #ff0000, font-size: 1.1rem</div>
+            </div>
+
+            <!-- Mission Text -->
+            <div class="element-outline text layer-4" style="top: 530px; left: 50%; transform: translateX(-50%); width: 50%; height: 20px;">
+                <div class="element-name">.mission-text</div>
+                <div class="element-dimensions">50% x 20px</div>
+                <div class="element-position-info">Typing animation, font-size: 1rem</div>
+            </div>
+
+            <!-- Pseudo Elements (Overlay) -->
+            <div class="element-outline pseudo layer-5" style="top: 360px; left: 50%; transform: translateX(-50%); width: 70%; height: 200px;">
+                <div class="element-name">::before & ::after</div>
+                <div class="element-dimensions">70% x 200px</div>
+                <div class="element-position-info">Pseudo elements overlay, position: absolute</div>
+            </div>
+        </div>
+
+        <div class="coordinate-info">
+            <p><strong>Complete Page Layout:</strong></p>
+            <p><strong>Header:</strong> 100% x 120px (fixed position)</p>
+            <p><strong>Navigation:</strong> 100% x 80px (5 tabs, 60px each)</p>
+            <p><strong>Main Content:</strong> 100% x 480px (relative position)</p>
+            <p><strong>Header Elements:</strong> Name, Quote, Profile Picture</p>
+            <p><strong>Background Videos:</strong> Starfield.mp4 in header & main content</p>
+            <p><strong>Mission Statement:</strong> 70% width, expandable (no typing effect)</p>
+            <p><strong>Current Spacing:</strong> margin-top: 0 (desktop), 120px (mobile)</p>
+        </div>
+    </div>
+
+    <div class="control-panel">
+        <h4>Interactive Controls</h4>
+        
+        <div class="control-group">
+            <h5>Header Elements</h5>
+            <div class="checkbox-item">
+                <input type="checkbox" id="header-container" checked>
+                <label for="header-container">.header (Fixed Container)</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="header-card" checked>
+                <label for="header-card">.header-card</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="header-content-wrapper" checked>
+                <label for="header-content-wrapper">.header-content-wrapper</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="header-text" checked>
+                <label for="header-text">.header-text</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="name" checked>
+                <label for="name">.name (Brian Krawitz)</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="quote" checked>
+                <label for="quote">.quote (Bridging the gap...)</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="profile-picture" checked>
+                <label for="profile-picture">.profile-picture</label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h5>Navigation Elements</h5>
+            <div class="checkbox-item">
+                <input type="checkbox" id="nav-container" checked>
+                <label for="nav-container">.nav-container</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="nav-tabs" checked>
+                <label for="nav-tabs">.nav-tabs</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="nav-tab-about" checked>
+                <label for="nav-tab-about">.nav-tab[data-section="about"]</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="nav-tab-experience" checked>
+                <label for="nav-tab-experience">.nav-tab[data-section="experience"]</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="nav-tab-projects" checked>
+                <label for="nav-tab-projects">.nav-tab[data-section="projects"]</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="nav-tab-education" checked>
+                <label for="nav-tab-education">.nav-tab[data-section="education"]</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="nav-tab-contact" checked>
+                <label for="nav-tab-contact">.nav-tab[data-section="contact"]</label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h5>Main Content Elements</h5>
+            <div class="checkbox-item">
+                <input type="checkbox" id="main-content" checked>
+                <label for="main-content">.main-content</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="about-section" checked>
+                <label for="about-section">section#about</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="section-header" checked>
+                <label for="section-header">.section-header</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="about-title" checked>
+                <label for="about-title">h2 "About"</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="section-line" checked>
+                <label for="section-line">.section-line</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="about-content" checked>
+                <label for="about-content">.about-content</label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h5>Mission Statement Elements</h5>
+            <div class="checkbox-item">
+                <input type="checkbox" id="mission-statement" checked>
+                <label for="mission-statement">.mission-statement</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="entry-header" checked>
+                <label for="entry-header">.entry-header</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="entry-title" checked>
+                <label for="entry-title">.entry-title (Mission Statement)</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="click-indicator" checked>
+                <label for="click-indicator">.click-indicator</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="entry-content" checked>
+                <label for="entry-content">.entry-content</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="hal-voice" checked>
+                <label for="hal-voice">.hal-voice</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="hal-text-1" checked>
+                <label for="hal-text-1">.hal-text (Quote 1)</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="hal-text-2" checked>
+                <label for="hal-text-2">.hal-text (Quote 2)</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="mission-text" checked>
+                <label for="mission-text">.mission-text</label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h5>Video Elements</h5>
+            <div class="checkbox-item">
+                <input type="checkbox" id="header-background-video" checked>
+                <label for="header-background-video">.header-background-video (Starfield.mp4)</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="main-content-background-video" checked>
+                <label for="main-content-background-video">.main-content-background-video (Starfield.mp4)</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="mission-video-background" checked>
+                <label for="mission-video-background">.mission-video-background (Path_Of_Flow.mp4)</label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h5>Pseudo Elements</h5>
+            <div class="checkbox-item">
+                <input type="checkbox" id="pseudo-elements" checked>
+                <label for="pseudo-elements">::before & ::after</label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h5>Quick Actions</h5>
+            <button class="toggle-all-btn" onclick="toggleAllElements()">Toggle All</button>
+            <button class="reset-btn" onclick="resetElements()">Show All</button>
+            <button class="toggle-all-btn" onclick="hideAllElements()">Hide All</button>
+        </div>
+
+        <div class="control-group">
+            <h5>Layer Legend</h5>
+            <div style="font-size: 0.7rem; line-height: 1.4;">
+                <div><strong>L1:</strong> Main containers (highest priority)</div>
+                <div><strong>L2:</strong> Background videos</div>
+                <div><strong>L3:</strong> Interactive elements</div>
+                <div><strong>L4:</strong> Text content</div>
+                <div><strong>L5:</strong> Pseudo elements (lowest priority)</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.control-panel input[type="checkbox"]');
+            const elements = document.querySelectorAll('.page-outline .element-outline');
+
+            // Create a mapping of checkbox IDs to element selectors
+            const elementMapping = {
+                'header-container': '.header',
+                'header-card': '.header-card',
+                'header-content-wrapper': '.header-content-wrapper',
+                'header-text': '.header-text',
+                'name': '.name',
+                'quote': '.quote',
+                'profile-picture': '.profile-picture',
+                'nav-container': '.nav-container',
+                'nav-tabs': '.nav-tabs',
+                'nav-tab-about': '.nav-tab[data-section="about"]',
+                'nav-tab-experience': '.nav-tab[data-section="experience"]',
+                'nav-tab-projects': '.nav-tab[data-section="projects"]',
+                'nav-tab-education': '.nav-tab[data-section="education"]',
+                'nav-tab-contact': '.nav-tab[data-section="contact"]',
+                'main-content': '.main-content',
+                'about-section': 'section#about',
+                'section-header': '.section-header',
+                'about-title': 'h2 "About"',
+                'section-line': '.section-line',
+                'about-content': '.about-content',
+                'mission-statement': '.mission-statement',
+                'entry-header': '.entry-header',
+                'entry-title': '.entry-title',
+                'click-indicator': '.click-indicator',
+                'entry-content': '.entry-content',
+                'hal-voice': '.hal-voice',
+                'hal-text-1': '.hal-text (1)',
+                'hal-text-2': '.hal-text (2)',
+                'mission-text': '.mission-text',
+                'header-background-video': '.header-background-video',
+                'main-content-background-video': '.main-content-background-video',
+                'mission-video-background': '.mission-video-background',
+                'pseudo-elements': '::before & ::after'
+            };
+
+            // Add layer indicators to elements
+            elements.forEach(element => {
+                let layer = 'L1'; // Default layer
+                
+                // Determine layer based on element type
+                if (element.classList.contains('video')) {
+                    layer = 'L2';
+                } else if (element.classList.contains('interactive')) {
+                    layer = 'L3';
+                } else if (element.classList.contains('text')) {
+                    layer = 'L4';
+                } else if (element.classList.contains('pseudo')) {
+                    layer = 'L5';
+                }
+
+                // Add layer class and indicator
+                element.classList.add(`layer-${layer.charAt(1)}`);
+                
+                // Add layer indicator to element name
+                const elementName = element.querySelector('.element-name');
+                if (elementName) {
+                    elementName.innerHTML += ` <span class="layer-indicator">${layer}</span>`;
+                }
+            });
+
+            function updateElementVisibility() {
+                elements.forEach(element => {
+                    let shouldShow = false;
+                    
+                    // Check if any checkbox for this element is checked
+                    checkboxes.forEach(checkbox => {
+                        const elementName = element.querySelector('.element-name');
+                        if (elementName) {
+                            const elementText = elementName.textContent;
+                            const checkboxId = checkbox.id;
+                            
+                            // Match element to checkbox
+                            if (elementMapping[checkboxId]) {
+                                const mappedElement = elementMapping[checkboxId];
+                                if (elementText.includes(mappedElement) || 
+                                    (mappedElement.includes('(') && elementText.includes(mappedElement.split('(')[0]))) {
+                                    if (checkbox.checked) {
+                                        shouldShow = true;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    
+                    element.style.display = shouldShow ? 'flex' : 'none';
+                });
+            }
+
+            function toggleAllElements() {
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = !allChecked;
+                });
+                updateElementVisibility();
+            }
+
+            function resetElements() {
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = true;
+                });
+                updateElementVisibility();
+            }
+
+            function hideAllElements() {
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                updateElementVisibility();
+            }
+
+            // Add event listeners
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateElementVisibility);
+            });
+
+            // Initial visibility update
+            updateElementVisibility();
+        });
+    </script>
+</body>
+</html>
