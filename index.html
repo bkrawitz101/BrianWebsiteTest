@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Brian Krawitz - Creative Technology Evangelist</title>
+    <link rel="stylesheet" href="css/styles.css?v=1150&cache=bust77&force=true">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Preload the intro video to improve initial load experience -->
+    <link rel="preload" href="assets/video/Retro_Futuristic_City_Sunrise_Video.webm" as="video" type="video/webm">
+
+    <style>
+        /* Default styles for desktop and larger screens */
+        .mobile-nav-tree {
+            display: none !important;
+        }
+
+        /* Styles for mobile and tablet screens (e.g., <= 768px) */
+        @media (max-width: 768px) {
+            /* Hide the desktop navigation tabs */
+            .top-nav .nav-tabs {
+                display: none !important;
+            }
+
+            /* Show the mobile navigation tree */
+            .mobile-nav-tree {
+                display: block !important;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <!-- TRON/Star Trek TNG Console Wrapper -->
+    <div class="console-wrapper">
+        <div class="console-grid"></div>
+        <div class="console-mask-top"></div>
+        <div class="console-mask-bottom"></div>
+        <div class="console-mask-left"></div>
+        <div class="console-mask-right"></div>
+        <div class="console-border"></div>
+        <div class="console-corner top-left"></div>
+        <div class="console-corner top-right"></div>
+        <div class="console-corner bottom-left"></div>
+        <div class="console-corner bottom-right"></div>
+        <div class="console-panel header-panel"></div>
+        <div class="console-panel nav-panel"></div>
+        <div class="console-panel content-panel"></div>
+        <div class="console-status-indicator"></div>
+        <div class="console-data-stream"></div>
+    </div>
+
+    <!-- Initiate Sequence Overlay -->
+    <div id="initiateSequence" class="initiate-sequence">
+        <div class="sequence-content">
+            <div class="flashing-box">
+                <span class="sequence-text">INITIATE SEQUENCE</span>
+            </div>
+            <div class="sequence-subtitle">Click to begin experience</div>
+        </div>
+    </div>
+
+    <!-- Video Intro Overlay -->
+    <div id="videoIntro" class="video-intro">
+        <video id="introVideo" class="intro-video" muted playsinline webkit-playsinline preload="none">
+            <source src="assets/video/Retro_Futuristic_City_Sunrise_Video.webm" type="video/webm">
+            <source src="assets/video/Retro_Futuristic_City_Sunrise_Video.mp4" type="video/mp4">
+            Your browser does not support the video element.
+        </video>
+        <div class="video-overlay">
+            <div class="intro-content">
+                <h1 class="intro-title">Brian Krawitz</h1>
+                <p class="intro-subtitle">Creative Technology Evangelist</p>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Audio -->
+    <audio id="backgroundAudio" loop preload="none">
+        <!-- Point directly to the confirmed working MP3 file -->
+        <source src="assets/audio/Music_optimized.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Audio Control Button -->
+    <div id="audioControl" class="audio-control">
+        <button id="playAudioBtn" class="audio-btn">
+            <i class="fas fa-volume-mute"></i>
+            <span>Enable Audio</span>
+        </button>
+    </div>
+
+    <!-- Container with Enhanced Visibility -->
+    <div class="container site-hidden">
+        
+        <!-- 2001: A Space Odyssey Monolith Effect -->
+        <div class="monolith-container">
+            <div class="monolith"></div>
+        </div>
+
+        <!-- Header with Logo and Contact -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-card">
+                    <div class="header-content-wrapper">
+                        <div class="header-background-video">
+                            <video class="lazy" muted loop playsinline preload="none">
+                                <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="header-profile">
+                            <img src="images/bkai.jpg?v=4" alt="Brian Krawitz" class="profile-picture">
+                        </div>
+                        <div class="header-text">
+                            <h1 class="name">Brian Krawitz</h1>
+                            <p class="quote">"Bridging the gap between imagination and reality"</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="top-nav neural">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li>
+                            <a href="#about" class="nav-tab active" data-section="about" title="Mission">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span class="nav-label">Mission</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#experience" class="nav-tab" data-section="experience" title="Experience">
+                                <i class="fas fa-briefcase"></i>
+                                <span class="nav-label">Experience</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#portfolio" class="nav-tab" data-section="portfolio" title="Portfolio">
+                                <i class="fas fa-rocket"></i>
+                                <span class="nav-label">Portfolio</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#education" class="nav-tab" data-section="education" title="Education">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span class="nav-label">Education</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#contact" class="nav-tab" data-section="contact" title="Contact">
+                                <i class="fas fa-envelope"></i>
+                                <span class="nav-label">Contact</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Tree - Moved outside navigation flow -->
+    <div class="mobile-nav-tree">
+        <div class="mobile-nav-main">
+            <i class="fas fa-network-wired"></i>
+            <span>Menu</span>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+        </div>
+        <div class="mobile-nav-submenu">
+            <div class="mobile-nav-item" data-section="about">
+                <i class="fas fa-user-astronaut"></i>
+                <span>Mission</span>
+            </div>
+            <div class="mobile-nav-item" data-section="experience">
+                <i class="fas fa-briefcase"></i>
+                <span>Experience</span>
+            </div>
+            <div class="mobile-nav-item" data-section="portfolio">
+                <i class="fas fa-rocket"></i>
+                <span>Portfolio</span>
+            </div>
+            <div class="mobile-nav-item" data-section="education">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Education</span>
+            </div>
+            <div class="mobile-nav-item" data-section="contact">
+                <i class="fas fa-envelope"></i>
+                <span>Contact</span>
+            </div>
+        </div>
+    </div>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="main-content-background-video">
+                <video autoplay muted loop playsinline webkit-playsinline>
+                    <source src="assets/video/Starfield.webm" type="video/webm">
+                    <source src="assets/video/Starfield.mp4" type="video/mp4">
+                </video>
+            </div>
+            <!-- About Section with 2001 Styling -->
+            <section id="about" class="content-section active">
+                <div class="section-header">
+                    <h2>About</h2>
+                    <div class="section-line"></div>
+                </div>
+                
+                <div class="about-content">
+                    <div class="mission-statement clickable-entry" data-content="Once unlocked, the power of imagination can manifest anything. I have taken my life's worth of multidisciplinary experience and woven it into who I am now, an Imagineer, Community Instigator, MetaConnector, Transmedia Visionary, Transformational Futurist, and Creative Technology Evangelist.  My noble purpose as defined by who I am, what I do, and why I do it is to bridge the gap between imagination and reality, within the physical and virtual worlds. I see things from a unique viewpoint, which enables me to start with a dream and help unlock its potential. I look forward to joining you on your journey…">
+                        <div class="entry-header">
+                            <h3 class="entry-title">Mission Statement</h3>
+                            <div class="click-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="mission-video-background">
+                                <video class="lazy" muted loop playsinline>
+                                    <source data-src="assets/video/Path_Of_Flow.webm" type="video/webm">
+                                    <source data-src="assets/video/Path_Of_Flow.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="hal-voice">
+                                <span class="hal-text">"I'm sorry, Dave. I'm afraid I can't do that."</span>
+                                <span class="hal-text">"I know I've made some very poor decisions recently, but I can give you my complete assurance that my work will be back to normal."</span>
+                            </div>
+                            <p class="mission-text typing-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section with Creative Layout -->
+            <section id="experience" class="content-section">
+                <div class="section-header">
+                    <h2>Experience</h2>
+                    <div class="section-line"></div>
+                </div>
+                
+                <!-- Current Roles -->
+                <div class="experience-category clickable-entry" data-content="Current Roles: Creative Co-director at P.e.a.c.e !ng, Creative Technology Evangelist at H.A.L.O. Qi, Creative Technology Evangelist and Community Instigator at AVN">
+                        <div class="entry-header">
+                            <h3 class="category-title">Current Roles</h3>
+                            <div class="click-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="experience-card featured clickable-entry" data-content="Creative Co-director at P.e.a.c.e !ng (People Evolve as Consciousness Expands) | Jun 2025 – Present. Co-director of creative initiatives, curating immersive 'Experibitions' that merge art with formalized consciousness studies, integrating science and experiential design.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Creative Co-director</h4>
+                                        <span class="company">P.e.a.c.e !ng (People Evolve as Consciousness Expands)</span>
+                                        <span class="period">Jun 2025 – Present</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Co-director of creative initiatives, curating immersive "Experibitions" that merge art with formalized consciousness studies, integrating science and experiential design</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://peacemuseum.wixsite.com/aethernautworks" target="_blank" class="project-link">Visit P.E.A.C.E</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="experience-card featured clickable-entry" data-content="Creative Technology Evangelist at H.A.L.O. Qi (Hyperqube Algorithmic Language Oracle) | Jun 2025 – Present. Collaborate with principal scientific investigator to develop data visualization tools for hyper-dimensional computations in a neuromorphic quantum computing environment. Support global outreach and creative presentation of hyper-dimensional AI research, bridging artists, scientists, and technologists in participatory consciousness experiments. Identify and cultivate partnerships with projects aligned to the United Nations Sustainable Development Goals (UN SDGs), expanding the network of regenerative and socially impactful initiatives.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Creative Technology Evangelist</h4>
+                                        <span class="company">H.A.L.O. Qi (Hyperqube Algorithmic Language Oracle)</span>
+                                        <span class="period">Jun 2025 – Present</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Collaborate with principal scientific investigator to develop data visualization tools for hyper-dimensional computations in a neuromorphic quantum computing environment</li>
+                                        <li>Support global outreach and creative presentation of hyper-dimensional AI research, bridging artists, scientists, and technologists in participatory consciousness experiments</li>
+                                        <li>Identify and cultivate partnerships with projects aligned to the United Nations Sustainable Development Goals (UN SDGs), expanding the network of regenerative and socially impactful initiatives</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.halo-ai.org/" target="_blank" class="project-link">Visit H.A.L.O</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="experience-card featured clickable-entry" data-content="Creative Technology Evangelist and Community Instigator at AVN (Agriculture Value-Chain Network) | Nov 2024 - Present. Community Development & Engagement: Cultivating grassroots initiatives and forging strong networks within farmer cooperatives, agribusinesses, and sustainability-driven communities to co-develop regenerative solutions. Innovative Communication & Collaboration: Leveraging unique storytelling and transmedia strategies to align diverse stakeholders, ensuring seamless integration of technology and sustainable practices. Technology Integration & Open-Source Ideation: Advising the core technology team to co-create and implement open-source tools that enhance agricultural systems, optimize waste stream upcycling, and strengthen cooperative ecosystems. Hands-On Implementation & Fieldwork: Serving as a boots-on-the-ground leader in the Sacramento area, actively developing and deploying community-driven solutions that translate regenerative concepts into tangible impact. Sustainability & Circular Economy Innovation: Co-creating ecosystems for waste stream upcycling and supporting cooperative models that promote regenerative practices, resource efficiency, and community empowerment.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Creative Technology Evangelist | Community Instigator</h4>
+                                        <span class="company">AVN (Agriculture Value-Chain Network)</span>
+                                        <span class="period">Nov 2024 - Present</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li><strong>Community Development & Engagement:</strong> Cultivating grassroots initiatives and forging strong networks within farmer cooperatives, agribusinesses, and sustainability-driven communities to co-develop regenerative solutions</li>
+                                        <li><strong>Innovative Communication & Collaboration:</strong> Leveraging unique storytelling and transmedia strategies to align diverse stakeholders, ensuring seamless integration of technology and sustainable practices</li>
+                                        <li><strong>Technology Integration & Open-Source Ideation:</strong> Advising the core technology team to co-create and implement open-source tools that enhance agricultural systems, optimize waste stream upcycling, and strengthen cooperative ecosystems</li>
+                                        <li><strong>Hands-On Implementation & Fieldwork:</strong> Serving as a boots-on-the-ground leader in the Sacramento area, actively developing and deploying community-driven solutions that translate regenerative concepts into tangible impact</li>
+                                        <li><strong>Sustainability & Circular Economy Innovation:</strong> Co-creating ecosystems for waste stream upcycling and supporting cooperative models that promote regenerative practices, resource efficiency, and community empowerment</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://steady-bombolone-aec41f.netlify.app/" target="_blank" class="project-link">Visit AVN</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advisory Roles -->
+                    <div class="experience-category clickable-entry" data-content="Advisory Roles: Advisory Board Member at IDA, Creative Technology Evangelist at APCCC">
+                        <div class="entry-header">
+                            <h3 class="category-title">Advisory Roles</h3>
+                            <div class="click-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="experience-card clickable-entry" data-content="Advisory Board Member and Creative Technology Evangelist at IDA (Invictus Development Africa) | Nov 2024 - May 2025. Provide strategic guidance as Creative Technology Evangelist to drive IDA's mission of empowering communities through regenerative agriculture, renewable energy, and technology-driven livelihoods. Advise on the integration of cutting-edge technologies such as blockchain and AI to enhance transparency, efficiency, and social impact across sustainable ventures. Support the development and scaling of circular economic models and resource management initiatives to foster environmental stewardship. Collaborate with global stakeholders, including investors, NGOs, and development agencies, to promote scalable, equitable, and sustainable ecosystems. Contribute expertise to training and capacity-building programs, focusing on skills development, digital literacy, and entrepreneurship for marginalized communities.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Advisory Board Member, Creative Technology Evangelist</h4>
+                                        <span class="company">IDA (Invictus Development Africa)</span>
+                                        <span class="period">Nov 2024 - May 2025</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Provide strategic guidance as Creative Technology Evangelist to drive IDA's mission of empowering communities through regenerative agriculture, renewable energy, and technology-driven livelihoods</li>
+                                        <li>Advise on the integration of cutting-edge technologies such as blockchain and AI to enhance transparency, efficiency, and social impact across sustainable ventures</li>
+                                        <li>Support the development and scaling of circular economic models and resource management initiatives to foster environmental stewardship</li>
+                                        <li>Collaborate with global stakeholders, including investors, NGOs, and development agencies, to promote scalable, equitable, and sustainable ecosystems</li>
+                                        <li>Contribute expertise to training and capacity-building programs, focusing on skills development, digital literacy, and entrepreneurship for marginalized communities</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.linkedin.com/company/104164397/admin/dashboard/" target="_blank" class="project-link">Visit IDA</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="experience-card clickable-entry" data-content="Creative Technology Evangelist at APCCC (Africa Partnership On Climate Control Coalition) | Jun 2024 - Present. Champion world-building as a tool for collaborative eco-village design, transforming visionary concepts into sustainable living spaces. Lead development of Edward's Hamlet Regenerative Agriculture Education Center, utilizing VR for community visualization and co-creation. Foster collaboration through immersive workshops and design sessions, blending creative imagination with practical, sustainable development. Harness VR and emerging technologies to help communities visualize and create sustainable futures. Bridge technology with community-driven solutions, empowering people to co-create eco-villages reflecting traditional values and modern innovations. Engage diverse stakeholders to bring cutting-edge solutions to rural communities, enabling participatory community building. Lead workshops teaching community members to utilize technology for empowerment and active participation in shaping living environments. Promote innovation through digital storytelling, VR environments, and interactive design, fostering community ownership and pride.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Creative Technology Evangelist</h4>
+                                        <span class="company">APCCC (Africa Partnership On Climate Control Coalition)</span>
+                                        <span class="period">Jun 2024 - Present</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Champion world-building as a tool for collaborative eco-village design, transforming visionary concepts into sustainable living spaces</li>
+                                        <li>Lead development of Edward's Hamlet Regenerative Agriculture Education Center, utilizing VR for community visualization and co-creation</li>
+                                        <li>Foster collaboration through immersive workshops and design sessions, blending creative imagination with practical, sustainable development</li>
+                                        <li>Harness VR and emerging technologies to help communities visualize and create sustainable futures</li>
+                                        <li>Bridge technology with community-driven solutions, empowering people to co-create eco-villages reflecting traditional values and modern innovations</li>
+                                        <li>Engage diverse stakeholders to bring cutting-edge solutions to rural communities, enabling participatory community building</li>
+                                        <li>Lead workshops teaching community members to utilize technology for empowerment and active participation in shaping living environments</li>
+                                        <li>Promote innovation through digital storytelling, VR environments, and interactive design, fostering community ownership and pride</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.linkedin.com/company/104164397/admin/dashboard/" target="_blank" class="project-link">Visit APCCC</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Technical Experience -->
+                    <div class="experience-category clickable-entry" data-content="Technical Experience: Event Production at Local 16, Senior Signal Acquisitions Engineer at ON24, Manager Broadcast Engineering at Current TV">
+                        <div class="entry-header">
+                            <h3 class="category-title">Technical Experience</h3>
+                            <div class="click-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="experience-card clickable-entry" data-content="Event Production at Local 16 | Nov 2019 - Present. Performed audio/visual set up and breakdown for SF Bay Area trade shows and conventions. Support one-off events as Webcast Streaming engineer. Works as audio operator including A1 and A2 on roster. Serves as Video Utility for $100M + large event configurations.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Event Production</h4>
+                                        <span class="company">Local 16</span>
+                                        <span class="period">Nov 2019 - Present</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Performed audio/visual set up and breakdown for SF Bay Area trade shows and conventions</li>
+                                        <li>Support one-off events as Webcast Streaming engineer</li>
+                                        <li>Works as audio operator including A1 and A2 on roster</li>
+                                        <li>Serves as Video Utility for $100M + large event configurations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="experience-card clickable-entry" data-content="Senior Signal Acquisitions Engineer at ON24 | Jul 2011 - Sept 2017. Led complex end client setups various media environments. Configured complex client webcasts workflows. Setup and configuration of broadcast quality webcasting infrastructure. Served as full client support on all webcasting issues, including off hour on-call 24x5 client-side support. Coproduced the design and functionality on one remote office and 2 remote data centers.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Senior Signal Acquisitions Engineer</h4>
+                                        <span class="company">ON24</span>
+                                        <span class="period">Jul 2011 - Sept 2017</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Led complex end client setups various media environments</li>
+                                        <li>Configured complex client webcasts workflows</li>
+                                        <li>Setup and configuration of broadcast quality webcasting infrastructure</li>
+                                        <li>Served as full client support on all webcasting issues, including off hour on-call 24x5 client-side support</li>
+                                        <li>Coproduced the design and functionality on one remote office and 2 remote data centers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="experience-card clickable-entry" data-content="Manager, Broadcast Engineering at Current TV | Apr 2006 - Feb 2010. Collaborated on the launch of the first international TV Station, an Al Gore initiative. Managed the first 8 months of the onsite technical department start-up operations in London, UK. Served as On-Air support for Master Control, supporting 3 separate channels, including UK and Italy. Maintained broadcast workflow and servers in both Windows and Mac OS. Supported multiple baseband and digital video formats with the Ingest department. Undertook Engineer-in-Charge duties for multi-country live simulcast production. Teamed up with the Research and Development department to launch the Twitter and live TV integration. Administered support for all company multi-media conference rooms.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Manager, Broadcast Engineering</h4>
+                                        <span class="company">Current TV</span>
+                                        <span class="period">Apr 2006 - Feb 2010</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Collaborated on the launch of the first international TV Station, an Al Gore initiative</li>
+                                        <li>Managed the first 8 months of the onsite technical department start-up operations in London, UK</li>
+                                        <li>Served as On-Air support for Master Control, supporting 3 separate channels, including UK and Italy</li>
+                                        <li>Maintained broadcast workflow and servers in both Windows and Mac OS</li>
+                                        <li>Supported multiple baseband and digital video formats with the Ingest department</li>
+                                        <li>Undertook Engineer-in-Charge duties for multi-country live simulcast production</li>
+                                        <li>Teamed up with the Research and Development department to launch the Twitter and live TV integration</li>
+                                        <li>Administered support for all company multi-media conference rooms</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prior Work Experience -->
+                    <div class="experience-category clickable-entry" data-content="Prior Work Experience: Various Technical Roles at Multiple Companies including Larry Flynt Publications, E! Networks, and Bloomberg LP">
+                        <div class="entry-header">
+                            <h3 class="category-title">Prior Work Experience</h3>
+                            <div class="click-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="experience-card clickable-entry" data-content="Various Technical Roles at Multiple Companies | 2000 - 2006. Larry Flynt Publications, Los Angeles, CA: Supervisor, Broadcast Video on Demand/Quality Control. E! Networks, Los Angeles, CA: Tape Operations / Transmissions. Bloomberg LP, New York, NY: Television Operator.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Various Technical Roles</h4>
+                                        <span class="company">Multiple Companies</span>
+                                        <span class="period">2000 - 2006</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li><strong>Larry Flynt Publications, Los Angeles, CA:</strong> Supervisor, Broadcast Video on Demand/Quality Control</li>
+                                        <li><strong>E! Networks, Los Angeles, CA:</strong> Tape Operations / Transmissions</li>
+                                        <li><strong>Bloomberg LP, New York, NY:</strong> Television Operator</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+
+            <!-- Portfolio Section with Creative Layout -->
+            <section id="portfolio" class="content-section">
+                <div class="section-header">
+                    <h2>Portfolio</h2>
+                    <div class="section-line"></div>
+                </div>
+                
+                <div class="projects-showcase">
+
+                    <!-- Solo Digital Medium -->
+                    <div class="project-category clickable-entry" data-content="Solo Digital Medium: Individual digital projects including Unity Sanctuary, The Connected Experience, and Virtual Reality TESOL environments">
+                        <div class="entry-header">
+                            <h3 class="category-title">Solo Digital Medium</h3>
+                            <div class="click-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="project-grid">
+                            <div class="project-card clickable-entry" data-content="Unity Sanctuary | 2020. Immersive virtual reality experience, based in Altspace, inspired by habitable lantern style yurts.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Unity Sanctuary</h4>
+                                        <span class="company">Virtual Reality Experience</span>
+                                        <span class="period">2020</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Immersive virtual reality experience, based in Altspace, inspired by habitable lantern style yurts</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.spatial.io/s/Unity-Sanctuary-642a24c4a48e756c05157f8d?share=0" target="_blank" class="project-link">Trailer</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card clickable-entry" data-content="The Connected Experience | 2020. Immersive and interactive virtual reality experience, based in Altspace, inspired through connecting community through artistic expression and bio-feedback.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>The Connected Experience</h4>
+                                        <span class="company">Virtual Reality Experience</span>
+                                        <span class="period">2020</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.webm" type="video/webm">
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Immersive and interactive virtual reality experience, based in Altspace, inspired through connecting community through artistic expression and bio-feedback</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.spatial.io/s/Virtual-Conversations-For-Content-Creators-64d2ce5f02931161c9016415?share=0" target="_blank" class="project-link">Piano Demo</a>
+                                        <a href="https://www.spatial.io/s/Virtual-Conversations-For-Content-Creators-64d2ce5f02931161c9016415?share=0" target="_blank" class="project-link">Trailer</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card clickable-entry" data-content="Virtual Reality TESOL environments | 2021. Educational virtual reality environments for Teaching English to Speakers of Other Languages.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Virtual Reality TESOL environments</h4>
+                                        <span class="company">Educational VR</span>
+                                        <span class="period">2021</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Educational virtual reality environments for Teaching English to Speakers of Other Languages</li>
+                                    </ul>
+                                    <p>Immersive and interactive virtual reality experience, based in Altspace, designed for a more modern day example of education 2.0 using existing 3rd party designed 3D assets and integrating for proof of concept.</p>
+                                    <div class="project-links">
+                                        <a href="https://youtu.be/v3vbtbwxmjM" target="_blank" class="project-link">Virtual Reality TESOL Demo</a>
+                                        <a href="https://mstina.net" target="_blank" class="project-link">Tina Liu's UCLA TESOL course Lesson Plans</a>
+                                        <a href="https://youtu.be/R71L43TmVR0" target="_blank" class="project-link">My i-to-i TEFL online certificate lesson plan</a>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Collaborative Digital Medium -->
+                    <div class="project-category clickable-entry" data-content="Collaborative Digital Medium: Team-based digital projects including Heartland VR and White Mirror, collaborative virtual reality experiences">
+                        <div class="entry-header">
+                            <h3 class="category-title">Collaborative Digital Medium</h3>
+                            <div class="click-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="project-grid">
+                            <div class="project-card clickable-entry" data-content="Heartland VR | 2023. Immersive and interactive virtual reality experience, based in Spatial, inspired by connecting and educating communities in sustainable and regenerative practices. Lead Unity Developer, including layout and programming. Assisted in 3D modeling, including editing in Fusion 360 and Blender. Education ideation and integration within virtual space.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Heartland VR</h4>
+                                        <span class="company">Collaborative VR Experience</span>
+                                        <span class="period">2023</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Immersive and interactive virtual reality experience, based in Spatial, inspired by connecting and educating communities in sustainable and regenerative practices</li>
+                                        <li>Lead Unity Developer, including layout and programming</li>
+                                        <li>Assisted in 3D modeling, including editing in Fusion 360 and Blender</li>
+                                        <li>Education ideation and integration within virtual space</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.spatial.io/s/Heartland-VR-99-64a48527f9bd5d584cddf40d?share=0" target="_blank" class="project-link">View Project</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card clickable-entry" data-content="White Mirror | 2020. Immersive and interactive virtual reality experience, previously based in Altspace, inspired by connecting community through artistic expression and biofeedback. Ideated and concept design of immersive floating islands in space. 3D modeling of sacred geometry, including editing in Fusion 360 and Blender. Universe environment layout and interaction for Altspace, built within Unity game engine.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>White Mirror</h4>
+                                        <span class="company">Collaborative VR Experience</span>
+                                        <span class="period">2020</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Immersive and interactive virtual reality experience, previously based in Altspace, inspired by connecting community through artistic expression and biofeedback</li>
+                                        <li>Ideated and concept design of immersive floating islands in space</li>
+                                        <li>3D modeling of sacred geometry, including editing in Fusion 360 and Blender</li>
+                                        <li>Universe environment layout and interaction for Altspace, built within Unity game engine</li>
+                                    <li><strong>Storyline and superhero character development</strong></li>
+                                </ul>
+                                <div class="project-links">
+                                    <a href="https://whitemirror.live/video-white-mirror-vr-trailer.html" target="_blank" class="project-link">VR Trailer</a>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solo Mixed-Medium Sculpture -->
+                    <div class="project-category clickable-entry" data-content="Solo Mixed-Medium Sculpture: Individual physical sculptures including Life Within Itself, The Fountain of Pon Lai, and Kryptonicity, all designed with Fusion360 and inspired by sacred geometry">
+                        <div class="entry-header">
+                            <h3 class="category-title">Solo Mixed-Medium Sculpture</h3>
+                            <div class="click-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="project-grid">
+                            <div class="project-card clickable-entry" data-content="Life Within Itself | 2017. Mixed medium brass, wood and frosted acrylic lighting sculpture, designed in Fusion360, inspired by sacred geometry.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Life Within Itself</h4>
+                                        <span class="company">Solo Sculpture</span>
+                                        <span class="period">2017</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Mixed medium brass, wood and frosted acrylic lighting sculpture, designed in Fusion360, inspired by sacred geometry</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.facebook.com/media/set/?set=a.1780786018881916&type=3" target="_blank" class="project-link">View Project</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card clickable-entry" data-content="The Fountain of Pon Lai: The Path of Flow | 2015. Mixed medium frosted acrylic and interactive cognitive lighting sculpture, designed in Fusion360, first created for the Cognitive Technologies exhibit at the San Francisco Exploratorium.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>The Fountain of Pon Lai: The Path of Flow</h4>
+                                        <span class="company">Solo Sculpture</span>
+                                        <span class="period">2015</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Mixed medium frosted acrylic and interactive cognitive lighting sculpture, designed in Fusion360, first created for the Cognitive Technologies exhibit at the San Francisco Exploratorium</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.facebook.com/media/set/?set=a.1432859607007894&type=3" target="_blank" class="project-link">View Project</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card clickable-entry" data-content="Kryptonicity | 2012. Mixed medium frosted acrylic, metal and lighting sculpture inspired by 1970's science fiction aesthetic and art deco bringing together form and function.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Kryptonicity</h4>
+                                        <span class="company">Solo Sculpture</span>
+                                        <span class="period">2012</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video class="lazy" muted loop playsinline>
+                                            <source data-src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Mixed medium frosted acrylic, metal and lighting sculpture inspired by 1970's science fiction aesthetic and art deco bringing together form and function</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.facebook.com/media/set/?set=a.1432861190341069&type=3" target="_blank" class="project-link">View Project</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Collaborative Mixed-Medium Sculpture -->
+                    <div class="project-category clickable-entry" data-content="Collaborative Mixed-Medium Sculpture: Team-based physical sculptures including Mens Amplio, Zoa, Brollyflock, and Temple of Flux, created with Flux Foundation and for Burning Man">
+                        <div class="entry-header">
+                            <h3 class="category-title">Collaborative Mixed-Medium Sculpture</h3>
+                            <div class="click-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="project-grid">
+                            <div class="project-card clickable-entry" data-content="Mens Amplio by Don Cain, Burning Man | 2013. Mixed medium acrylic, metal, fire and interactive cognitive lightning sculpture. Lead Lighting Artist. Ideated and designed custom lighting sculpture inspired by brain neurons and axons. Developed core concept of lighting sequence to give the feel of brain activity. Led a team of 10 volunteers to build over 200 lighting fixtures. Served as build lead for final assembly on playa.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Mens Amplio by Don Cain, Burning Man</h4>
+                                        <span class="company">Collaborative Sculpture</span>
+                                        <span class="period">2013</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video autoplay muted loop playsinline>
+                                            <source src="assets/video/Starfield.webm" type="video/webm">
+                                            <source src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Mixed medium acrylic, metal, fire and interactive cognitive lightning sculpture</li>
+                                        <li>Lead Lighting Artist</li>
+                                        <li>Ideated and designed custom lighting sculpture inspired by brain neurons and axons</li>
+                                        <li>Developed core concept of lighting sequence to give the feel of brain activity</li>
+                                        <li>Led a team of 10 volunteers to build over 200 lighting fixtures</li>
+                                        <li>Served as build lead for final assembly on playa</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.huffpost.com/entry/burning-man-brain_n_3599319" target="_blank" class="project-link">View Project</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card clickable-entry" data-content="Zoa by Flux Foundation, Burning Man | 2012. Mixed medium wood, and interactive lighting sculpture. Lead Lighting Artist. Designed custom lighting fixtures for both phases of Zoa, inspired by sea creatures. Assisted with concept of lighting sequence to give the feel of organic breath in the sculpture. Led a team of 10 volunteers to build over 100 lighting fixtures.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Zoa by Flux Foundation, Burning Man</h4>
+                                        <span class="company">Collaborative Sculpture</span>
+                                        <span class="period">2012</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video autoplay muted loop playsinline>
+                                            <source src="assets/video/Starfield.webm" type="video/webm">
+                                            <source src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Mixed medium wood, and interactive lighting sculpture</li>
+                                        <li>Lead Lighting Artist</li>
+                                        <li>Designed custom lighting fixtures for both phases of Zoa, inspired by sea creatures</li>
+                                        <li>Assisted with concept of lighting sequence to give the feel of organic breath in the sculpture</li>
+                                        <li>Led a team of 10 volunteers to build over 100 lighting fixtures</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.fluxfoundation.org/zoa/" target="_blank" class="project-link">View Project</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card clickable-entry" data-content="Brollyflock by Flux Foundation, Electric Daisy Carnival | 2011. Mixed medium steel, LEDs, fire and nylon interactive umbrella-like sculpture. Project Lead. Key in design of the 'jig' or form to build all of the metal fixtures. Managed general shop/warehouse logistics, including inventory, floor layouts and use of forklift. Served as an onsite advisor in the final assembly.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Brollyflock by Flux Foundation, Electric Daisy Carnival</h4>
+                                        <span class="company">Collaborative Sculpture</span>
+                                        <span class="period">2011</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video autoplay muted loop playsinline>
+                                            <source src="assets/video/Starfield.webm" type="video/webm">
+                                            <source src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Mixed medium steel, LEDs, fire and nylon interactive umbrella-like sculpture</li>
+                                        <li>Project Lead</li>
+                                        <li>Key in design of the 'jig' or form to build all of the metal fixtures</li>
+                                        <li>Managed general shop/warehouse logistics, including inventory, floor layouts and use of forklift</li>
+                                        <li>Served as an onsite advisor in the final assembly</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.fluxfoundation.org/brollyflock/" target="_blank" class="project-link">View Project</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card clickable-entry" data-content="Temple of Flux, Flux Foundation, Burning Man | 2010. Wood and lighting sculpture. Project Lead. Worked with a team of artists to design the outside surface for a 21,000 square foot sculpture. Developed a process to produce modular sections for this project called 'thatches'. Led a team of 30+ volunteers to build over 700 thatches. Managed general shop/warehouse logistics, including inventory, floor layouts and use of forklift.">
+                                <div class="entry-header">
+                                    <div class="entry-header-info">
+                                        <h4>Temple of Flux, Flux Foundation, Burning Man</h4>
+                                        <span class="company">Collaborative Sculpture</span>
+                                        <span class="period">2010</span>
+                                    </div>
+                                    <div class="click-indicator">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="entry-content">
+                                    <div class="experience-video-background">
+                                        <video autoplay muted loop playsinline>
+                                            <source src="assets/video/Starfield.webm" type="video/webm">
+                                            <source src="assets/video/Starfield.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <ul class="experience-bullets">
+                                        <li>Wood and lighting sculpture</li>
+                                        <li>Project Lead</li>
+                                        <li>Worked with a team of artists to design the outside surface for a 21,000 square foot sculpture</li>
+                                        <li>Developed a process to produce modular sections for this project called 'thatches'</li>
+                                        <li>Led a team of 30+ volunteers to build over 700 thatches</li>
+                                        <li>Managed general shop/warehouse logistics, including inventory, floor layouts and use of forklift</li>
+                                    </ul>
+                                    <div class="project-links">
+                                        <a href="https://www.fluxfoundation.org/temple-of-flux/" target="_blank" class="project-link">View Project</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section id="education" class="content-section">
+                <div class="section-header">
+                    <h2>Education</h2>
+                    <div class="section-line"></div>
+                </div>
+                
+                <div class="education-showcase clickable-entry" data-content="Education: Design Science Studio Cohort Member, Oculus Launchpad Cohort Member, Associate of the Arts from Rockland Community College, and TEFL Level 5 Certificate">
+                    <div class="entry-header">
+                        <h3 class="category-title">Educational Background</h3>
+                        <div class="click-indicator">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="entry-content">
+                        <div class="education-cards">
+                            <div class="education-card featured">
+                        <div class="education-header">
+                            <h3>Cohort Member</h3>
+                            <span class="institution">Design Science Studio</span>
+                            <span class="period">Sept 2021 - Apr 2022</span>
+                        </div>
+                        <p>The Design Science Studio is an educational incubator for art created by the Buckminster Fuller Institute and habRitual, that scaffolds, mentors and funds artists to inspire and propel us into a regenerative future. The program takes artists on a learning journey through a mind bending curriculum to produce planet-conscious art. Following the ideas of visionaries like Buckminster Fuller and many modern system thinkers, philosophers, activists, scientists and visionary polymaths, we help artists create content that can create cultural shifts. The program culminates in a series of digital and physical showcases and large scale campaigns to imagine and facilitate the transition to a future where all beings thrive through celebration and art.</p>
+                        <div class="project-links">
+                            <a href="https://www.designscience.studio/" target="_blank" class="project-link">Visit Website</a>
+                        </div>
+                    </div>
+                    
+                    <div class="education-card featured">
+                        <div class="education-header">
+                            <h3>Cohort Member</h3>
+                            <span class="institution">Oculus Launchpad</span>
+                            <span class="period">Aug 2021 - Apr 2022</span>
+                        </div>
+                        <p>Each year, the Launchpad program helps up to 100 professionals grow as emerging leaders in the field. Those selected to participate receive hardware support and admission to our kickoff Boot Camp event. This event is designed to build and foster your understanding and passion for VR development through hands-on training with industry leaders.</p>
+                        <div class="project-links">
+                            <a href="https://developer.oculus.com/launch-pad/" target="_blank" class="project-link">Visit Website</a>
+                        </div>
+                    </div>
+                    
+                    <div class="education-card">
+                        <div class="education-header">
+                            <h3>Associate of the Arts, Liberal Arts and Sciences, Broadcast Television</h3>
+                            <span class="institution">Rockland Community College, New York</span>
+                        </div>
+                    </div>
+                    
+                    <div class="education-card">
+                        <div class="education-header">
+                            <h3>TEFL Level 5 180-Hour Online Certificate</h3>
+                            <span class="institution">i-to-i, Online</span>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="content-section">
+                <div class="section-header">
+                    <h2>Contact</h2>
+                    <div class="section-line"></div>
+                </div>
+                
+                <div class="contact-showcase">
+                    <div class="contact-card">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Email</h3>
+                        <p><a href="mailto:bkrawitz@gmail.com" class="contact-link">bkrawitz@gmail.com</a></p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <i class="fas fa-phone"></i>
+                        <h3>Phone</h3>
+                        <p><a href="tel:+15107591982" class="contact-link">(510) 759-1982</a></p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <i class="fab fa-linkedin"></i>
+                        <h3>LinkedIn</h3>
+                        <p><a href="https://linkedin.com/in/bkrawitz" target="_blank" class="contact-link">Connect on LinkedIn</a></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/script.js?v=21"></script>
+</body>
+</html> 

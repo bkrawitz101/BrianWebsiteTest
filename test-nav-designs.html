@@ -1,0 +1,2974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Design Tests - Brian Krawitz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', 'Orbitron', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.8;
+            font-weight: 400;
+            font-size: 18px;
+            letter-spacing: 0.02em;
+        }
+
+        .test-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .test-section {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .test-title {
+            font-size: 2rem;
+            font-weight: 600;
+            font-family: 'Orbitron', sans-serif;
+            color: #00d4ff;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+        }
+
+        .nav-demo {
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 2px solid rgba(0, 212, 255, 0.4);
+            margin-top: 2rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 212, 255, 0.3);
+            padding: 1rem 0;
+            overflow: visible;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            justify-content: center;
+            overflow: visible;
+        }
+
+        .nav-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.5rem 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+            font-size: 1.2rem;
+            letter-spacing: 0.01em;
+        }
+
+        .nav-tab i {
+            font-size: 1.3rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Design 1: Holographic Floating Tabs */
+        .holographic .nav-tab {
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.08), transparent);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            margin: 0 0.5rem;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .holographic .nav-tab:nth-child(2) { animation-delay: 0.5s; }
+        .holographic .nav-tab:nth-child(3) { animation-delay: 1s; }
+        .holographic .nav-tab:nth-child(4) { animation-delay: 1.5s; }
+        .holographic .nav-tab:nth-child(5) { animation-delay: 2s; }
+
+        .holographic .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .holographic .nav-tab:hover::before {
+            opacity: 1;
+        }
+
+        .holographic .nav-tab:hover,
+        .holographic .nav-tab.active {
+            color: #00d4ff;
+            border-color: #00d4ff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+            transform: translateY(-5px);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Design 2: Neural Network Connection Style - Enhanced with Random Sizes */
+        .neural .nav-tabs {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 25px;
+            border: 2px solid #00d4ff;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: visible;
+        }
+
+        .neural .nav-tabs::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+            transform: translateY(-50%);
+            animation: axon-flow 4s infinite;
+            opacity: 0.8;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+        }
+
+        /* Neuron nucleus (cell body) */
+        .neural .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #00d4ff, #0066cc);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: neuron-pulse 2s infinite;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+        }
+
+        /* Dendrite branches extending from neuron */
+        .neural .nav-tab::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 80% 30%, rgba(0, 212, 255, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 30% 80%, rgba(0, 212, 255, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 70% 70%, rgba(0, 212, 255, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 50% 10%, rgba(0, 212, 255, 0.4) 2px, transparent 2px),
+                radial-gradient(circle at 10% 50%, rgba(0, 212, 255, 0.4) 2px, transparent 2px),
+                radial-gradient(circle at 90% 50%, rgba(0, 212, 255, 0.4) 2px, transparent 2px),
+                radial-gradient(circle at 50% 90%, rgba(0, 212, 255, 0.4) 2px, transparent 2px);
+            border-radius: 50%;
+            animation: dendrite-pulse 3s infinite;
+        }
+
+        /* Axon connections between neurons */
+        .neural .nav-tab:not(:last-child) {
+            position: relative;
+        }
+
+        .neural .nav-tab:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -2.5rem;
+            width: 2.5rem;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #0066cc);
+            transform: translateY(-50%);
+            animation: axon-pulse 2s infinite;
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+        }
+
+
+
+        .neural .nav-tab {
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.3), rgba(0, 0, 0, 0.9));
+            border: 2px solid #00d4ff;
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Normal state sizes for neurons */
+        .neural .nav-tab:nth-child(1) { width: 120px; height: 120px; }
+        .neural .nav-tab:nth-child(2) { width: 120px; height: 120px; }
+        .neural .nav-tab:nth-child(3) { width: 120px; height: 120px; }
+        .neural .nav-tab:nth-child(4) { width: 120px; height: 120px; }
+        .neural .nav-tab:nth-child(5) { width: 120px; height: 120px; }
+
+        .neural .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #00d4ff, #0066cc);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: neuron-pulse 2s infinite;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+        }
+
+        .neural .nav-tab::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 80% 30%, rgba(0, 212, 255, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 30% 80%, rgba(0, 212, 255, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 70% 70%, rgba(0, 212, 255, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 50% 10%, rgba(0, 212, 255, 0.4) 2px, transparent 2px),
+                radial-gradient(circle at 10% 50%, rgba(0, 212, 255, 0.4) 2px, transparent 2px),
+                radial-gradient(circle at 90% 50%, rgba(0, 212, 255, 0.4) 2px, transparent 2px),
+                radial-gradient(circle at 50% 90%, rgba(0, 212, 255, 0.4) 2px, transparent 2px);
+            border-radius: 50%;
+            animation: dendrite-pulse 3s infinite;
+        }
+
+        /* Axon connections between neurons */
+        .neural .nav-tab:not(:last-child) {
+            position: relative;
+        }
+
+        .neural .nav-tab:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -2.5rem;
+            width: 2.5rem;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #0066cc);
+            transform: translateY(-50%);
+            animation: axon-pulse 2s infinite;
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+        }
+
+        /* Synaptic terminal at axon end */
+        .neural .nav-tab:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -2.5rem;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #00d4ff, #0066cc);
+            border-radius: 50%;
+            transform: translateY(-50%);
+            animation: synaptic-pulse 1.5s infinite;
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.8);
+        }
+
+        .neural .nav-tab:hover,
+        .neural .nav-tab.active {
+            transform: scale(1.2);
+            box-shadow: 0 0 35px rgba(0, 212, 255, 0.8);
+            border-color: #ffffff;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 1);
+        }
+
+        .neural .nav-tab:hover::before {
+            animation: neuron-pulse 0.5s infinite;
+            box-shadow: 0 0 25px rgba(0, 212, 255, 1);
+        }
+
+        .neural .nav-tab:hover::after {
+            animation: neural-pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes neuron-pulse {
+            0%, 100% { 
+                opacity: 0.6; 
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        @keyframes neural-pulse {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes axon-flow {
+            0% { 
+                background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+                opacity: 0.3;
+            }
+            50% { 
+                background: linear-gradient(90deg, transparent, #ffffff, transparent);
+                opacity: 0.8;
+            }
+            100% { 
+                background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes axon-pulse {
+            0%, 100% { 
+                opacity: 0.4;
+                background: linear-gradient(90deg, #00d4ff, transparent);
+            }
+            50% { 
+                opacity: 1;
+                background: linear-gradient(90deg, #ffffff, transparent);
+            }
+        }
+
+        @keyframes dendrite-pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes synaptic-pulse {
+            0%, 100% { 
+                opacity: 0.6;
+                transform: translateY(-50%) scale(1);
+            }
+            50% { 
+                opacity: 1;
+                transform: translateY(-50%) scale(1.3);
+            }
+        }
+
+        /* Neural Network dropdown styling - minimal neural theme */
+        .neural .dropdown-container .dropdown-content {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            width: auto;
+            height: auto;
+            padding: 0.5rem 0;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            position: relative;
+            overflow: visible;
+        }
+
+
+
+        .neural .dropdown-container .dropdown-item {
+            color: #00d4ff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            text-align: left;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem 0;
+            width: auto;
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            border-radius: 0;
+            position: relative;
+            overflow: visible;
+        }
+
+        .neural .dropdown-container .dropdown-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 4px;
+            height: 4px;
+            background: #00d4ff;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            animation: neuron-pulse 1.5s infinite;
+        }
+
+        .neural .dropdown-container .dropdown-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+            transform: translateX(5px);
+        }
+
+        /* Design 3: Terminal/Matrix Style */
+        .terminal .nav-tab {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.3), transparent);
+            animation: matrix-scan 2s linear infinite;
+        }
+
+        .terminal .nav-tab:hover,
+        .terminal .nav-tab.active {
+            color: #00ff00;
+            border-color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+        }
+
+        .terminal .nav-tab i {
+            color: #00ff00;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+        }
+
+        @keyframes matrix-scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Design 4: Holographic Projection Effect */
+        .projection .nav-tab {
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.4s ease;
+        }
+
+        .projection .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), transparent);
+            border-radius: 8px;
+            transform: translateZ(-10px);
+        }
+
+        .projection .nav-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(to bottom, #00d4ff, transparent);
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .projection .nav-tab:hover::after {
+            opacity: 1;
+        }
+
+        .projection .nav-tab:hover,
+        .projection .nav-tab.active {
+            transform: translateY(-10px) rotateX(10deg);
+            border-color: #00d4ff;
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+            color: #00d4ff;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+        }
+
+        /* Design 5: Circuit Board Design */
+        .circuit .nav-tabs {
+            position: relative;
+        }
+
+        .circuit .nav-tabs::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, transparent 30%, #00d4ff 30%, #00d4ff 31%, transparent 31%),
+                linear-gradient(90deg, transparent 50%, #00d4ff 50%, #00d4ff 51%, transparent 51%),
+                linear-gradient(90deg, transparent 70%, #00d4ff 70%, #00d4ff 71%, transparent 71%);
+            opacity: 0.3;
+        }
+
+        .circuit .nav-tab {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00d4ff;
+            border-radius: 4px;
+            position: relative;
+            margin: 0 0.5rem;
+        }
+
+        .circuit .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00d4ff, transparent, #00d4ff);
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .circuit .nav-tab:hover::before {
+            opacity: 1;
+            animation: circuit-pulse 1s ease-in-out infinite;
+        }
+
+        .circuit .nav-tab:hover,
+        .circuit .nav-tab.active {
+            color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        @keyframes circuit-pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Design 6: Futuristic Dashboard Style */
+        .dashboard .nav-tab {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid rgba(0, 212, 255, 0.4);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 0.5rem;
+        }
+
+        .dashboard .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #ff4500, #00d4ff);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard .nav-tab::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: #00d4ff;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .dashboard .nav-tab:hover::before {
+            transform: translateX(0);
+        }
+
+        .dashboard .nav-tab:hover::after {
+            opacity: 1;
+        }
+
+        .dashboard .nav-tab:hover,
+        .dashboard .nav-tab.active {
+            color: #00d4ff;
+            border-color: #00d4ff;
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+        }
+
+        .dashboard .nav-tab.active::after {
+            opacity: 1;
+            animation: dashboard-pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes dashboard-pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* NEW RETRO-FUTURISTIC DESIGNS */
+
+        /* Design 7: Retro-Futuristic CRT Monitor Style */
+        .crt .nav-tab {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 0 5px #00ff00;
+            animation: crt-scan 0.1s linear infinite;
+        }
+
+        .crt .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 0, 0.03) 2px,
+                rgba(0, 255, 0, 0.03) 4px
+            );
+            pointer-events: none;
+        }
+
+        .crt .nav-tab:hover,
+        .crt .nav-tab.active {
+            color: #00ff00;
+            border-color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+            animation: crt-flicker 0.1s linear infinite;
+        }
+
+        @keyframes crt-scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(2px); }
+        }
+
+        @keyframes crt-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Design 8: Holographic Dropdown with Sound */
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .holographic-dropdown .nav-tab {
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(255, 68, 0, 0.1));
+            border: 2px solid transparent;
+            border-radius: 8px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .holographic-dropdown .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .holographic-dropdown .nav-tab:hover::before {
+            opacity: 1;
+        }
+
+        .dropdown-container .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid rgba(0, 212, 255, 0.6);
+            border-radius: 8px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 9999;
+            backdrop-filter: blur(20px);
+            margin-top: 5px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+        }
+
+        .dropdown-container:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-container .dropdown-item {
+            padding: 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .dropdown-container .dropdown-item:hover {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        /* Fix dropdown hover for all designs */
+        .dropdown-container:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Ensure dropdowns work in all nav-demo containers */
+        .nav-demo .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-demo .dropdown-container .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid rgba(0, 212, 255, 0.6);
+            border-radius: 8px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 9999;
+            backdrop-filter: blur(20px);
+            margin-top: 5px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+        }
+
+        .nav-demo .dropdown-container:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-demo .dropdown-container .dropdown-item {
+            padding: 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .nav-demo .dropdown-container .dropdown-item:hover {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        /* Design 9: Synthwave Grid */
+        .synthwave .nav-tabs {
+            background: linear-gradient(180deg, #000000, #1a0033, #000000);
+            border-top: 3px solid #ff00ff;
+            border-bottom: 3px solid #00ffff;
+            position: relative;
+            overflow: visible;
+        }
+
+        .synthwave .nav-tabs::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 0%, rgba(255, 0, 255, 0.1) 50%, transparent 100%),
+                linear-gradient(0deg, transparent 0%, rgba(0, 255, 255, 0.1) 50%, transparent 100%);
+            animation: synthwave-grid 2s linear infinite;
+        }
+
+        .synthwave .nav-tab {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff00ff;
+            color: #ff00ff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .synthwave .nav-tab:hover,
+        .synthwave .nav-tab.active {
+            background: rgba(255, 0, 255, 0.2);
+            border-color: #00ffff;
+            color: #00ffff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.6);
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+        }
+
+        /* Synthwave Dropdown Styles */
+        .synthwave .dropdown-container .dropdown-content {
+            background: linear-gradient(180deg, #000000, #1a0033, #000000);
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.6);
+        }
+
+        .synthwave .dropdown-container .dropdown-item {
+            color: #ff00ff;
+            border-bottom: 1px solid rgba(255, 0, 255, 0.2);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .synthwave .dropdown-container .dropdown-item:hover {
+            background: rgba(255, 0, 255, 0.2);
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+
+        @keyframes synthwave-grid {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        /* Design 10: Blade Runner Style */
+        .blade-runner .nav-tab {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #ff4500;
+            color: #ff4500;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blade-runner .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .blade-runner .nav-tab:hover::before {
+            left: 100%;
+        }
+
+        .blade-runner .nav-tab:hover,
+        .blade-runner .nav-tab.active {
+            color: #ffffff;
+            border-color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+        }
+
+        /* Design 11: Tron Light Cycles */
+        .tron .nav-tab {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tron .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tron .nav-tab:hover::before {
+            opacity: 1;
+        }
+
+        .tron .nav-tab:hover,
+        .tron .nav-tab.active {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+        }
+
+        /* Design 12: Alien Tech */
+        .alien-tech .nav-tab {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alien-tech .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 255, 0, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .alien-tech .nav-tab:hover::before {
+            opacity: 1;
+        }
+
+        .alien-tech .nav-tab:hover,
+        .alien-tech .nav-tab.active {
+            background: rgba(0, 255, 0, 0.1);
+            border-color: #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+        }
+
+
+
+        /* Sound effect styles */
+        .sound-effect {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            padding: 1rem;
+            color: #00d4ff;
+            font-family: 'Orbitron', sans-serif;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .sound-effect.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hide mobile navigation on desktop by default */
+        .mobile-nav-tree {
+            display: none !important;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .test-container {
+                padding: 1rem;
+            }
+
+            .test-section {
+                margin-bottom: 2rem;
+                padding: 1rem;
+            }
+
+            .test-title {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            /* Mobile Navigation Tree Structure */
+            .nav-tabs {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .nav-tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+                justify-content: flex-start;
+                text-align: left;
+                border-radius: 6px;
+                margin: 0.125rem 0;
+                position: relative;
+            }
+
+            .nav-tab i {
+                font-size: 1rem;
+                width: 24px;
+                margin-right: 0.5rem;
+            }
+
+            /* Mobile Tree Navigation - Main Menu */
+            .mobile-nav-tree {
+                display: none;
+            }
+
+            .mobile-nav-tree.active {
+                display: block;
+            }
+
+            .mobile-nav-main {
+                display: flex;
+                align-items: center;
+                padding: 1rem;
+                background: rgba(0, 0, 0, 0.8);
+                border: 2px solid currentColor;
+                border-radius: 8px;
+                margin-bottom: 0.5rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .mobile-nav-main:hover {
+                background: rgba(0, 0, 0, 0.9);
+                box-shadow: 0 0 15px currentColor;
+                text-shadow: 0 0 10px currentColor;
+            }
+
+            .mobile-nav-main i {
+                font-size: 1.5rem;
+                margin-right: 0.75rem;
+            }
+
+            .mobile-nav-main span {
+                font-size: 1.1rem;
+                font-weight: 600;
+                font-family: 'Orbitron', sans-serif;
+            }
+
+            .mobile-nav-main .toggle-icon {
+                margin-left: auto;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-nav-tree.active .mobile-nav-main .toggle-icon {
+                transform: rotate(180deg);
+            }
+
+            /* Mobile Submenu */
+            .mobile-nav-submenu {
+                display: none;
+                margin-left: 1rem;
+                border-left: 2px solid currentColor;
+                padding-left: 1rem;
+            }
+
+            .mobile-nav-tree.active .mobile-nav-submenu {
+                display: block;
+            }
+
+            .mobile-nav-item {
+                padding: 0.5rem 0.75rem;
+                margin: 0.25rem 0;
+                border-radius: 4px;
+                background: rgba(0, 0, 0, 0.6);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
+                cursor: pointer;
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 500;
+                font-size: 0.9rem;
+                color: rgba(255, 255, 255, 0.9);
+            }
+
+            .mobile-nav-item:hover {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: currentColor;
+                box-shadow: 0 0 10px currentColor;
+                text-shadow: 0 0 5px currentColor;
+            }
+
+            /* Design-specific mobile icons and colors */
+            .holographic .mobile-nav-main i { color: #00d4ff; }
+            .holographic .mobile-nav-main { border-color: #00d4ff; color: #00d4ff; }
+            .holographic .mobile-nav-item { 
+                border-color: rgba(0, 212, 255, 0.3);
+                color: #00d4ff;
+            }
+            .holographic .mobile-nav-item:hover { 
+                background: rgba(0, 212, 255, 0.2); 
+                color: #00d4ff; 
+                box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+                text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+            }
+
+            .neural .mobile-nav-main i { 
+                color: #00d4ff; 
+                font-size: 1.2rem;
+                margin-bottom: 0.25rem;
+            }
+            .neural .mobile-nav-main { 
+                border-color: #00d4ff; 
+                color: #00d4ff; 
+                border-radius: 50%;
+                width: 80px;
+                height: 80px;
+                margin: 0 auto;
+                background: transparent;
+                box-shadow: none;
+                position: relative;
+                overflow: visible;
+            }
+            .neural .mobile-nav-main::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 6px;
+                height: 6px;
+                background: #00d4ff;
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                animation: neuron-pulse 2s infinite;
+            }
+            .neural .mobile-nav-item { 
+                border: none;
+                color: #00d4ff;
+                border-radius: 0;
+                text-align: left;
+                background: transparent;
+                margin: 0.25rem 0;
+                position: relative;
+                overflow: visible;
+                padding: 0.5rem 1rem;
+            }
+            .neural .mobile-nav-item::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 3px;
+                height: 3px;
+                background: #00d4ff;
+                border-radius: 50%;
+                transform: translateY(-50%);
+                animation: neuron-pulse 1.5s infinite;
+            }
+            .neural .mobile-nav-item:hover { 
+                background: rgba(0, 212, 255, 0.1); 
+                color: #ffffff; 
+                text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+                transform: translateX(5px);
+            }
+
+            .terminal .mobile-nav-main i { color: #00ff00; }
+            .terminal .mobile-nav-main { border-color: #00ff00; color: #00ff00; }
+            .terminal .mobile-nav-item { 
+                border-color: rgba(0, 255, 0, 0.3);
+                color: #00ff00;
+            }
+            .terminal .mobile-nav-item:hover { 
+                background: rgba(0, 255, 0, 0.2); 
+                color: #00ff00; 
+                box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+                text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+            }
+
+            .projection .mobile-nav-main i { color: #ffd700; }
+            .projection .mobile-nav-main { border-color: #ffd700; color: #ffd700; }
+            .projection .mobile-nav-item { 
+                border-color: rgba(255, 215, 0, 0.3);
+                color: #ffd700;
+            }
+            .projection .mobile-nav-item:hover { 
+                background: rgba(255, 215, 0, 0.2); 
+                color: #ffd700; 
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            }
+
+            .circuit .mobile-nav-main i { color: #ff4500; }
+            .circuit .mobile-nav-main { border-color: #ff4500; color: #ff4500; }
+            .circuit .mobile-nav-item { 
+                border-color: rgba(255, 69, 0, 0.3);
+                color: #ff4500;
+            }
+            .circuit .mobile-nav-item:hover { 
+                background: rgba(255, 69, 0, 0.2); 
+                color: #ff4500; 
+                box-shadow: 0 0 15px rgba(255, 69, 0, 0.6);
+                text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+            }
+
+            .dashboard .mobile-nav-main i { color: #00d4ff; }
+            .dashboard .mobile-nav-main { border-color: #00d4ff; color: #00d4ff; }
+            .dashboard .mobile-nav-item { 
+                border-color: rgba(0, 212, 255, 0.3);
+                color: #00d4ff;
+            }
+            .dashboard .mobile-nav-item:hover { 
+                background: rgba(0, 212, 255, 0.2); 
+                color: #00d4ff; 
+                box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+                text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+            }
+
+            .crt .mobile-nav-main i { color: #00ff00; }
+            .crt .mobile-nav-main { border-color: #00ff00; color: #00ff00; }
+            .crt .mobile-nav-item { 
+                border-color: rgba(0, 255, 0, 0.3);
+                color: #00ff00;
+            }
+            .crt .mobile-nav-item:hover { 
+                background: rgba(0, 255, 0, 0.2); 
+                color: #00ff00; 
+                box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+                text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+            }
+
+            .synthwave .mobile-nav-main i { color: #ff00ff; }
+            .synthwave .mobile-nav-main { border-color: #ff00ff; color: #ff00ff; }
+            .synthwave .mobile-nav-item { 
+                border-color: rgba(255, 0, 255, 0.3);
+                color: #ff00ff;
+            }
+            .synthwave .mobile-nav-item:hover { 
+                background: rgba(255, 0, 255, 0.2); 
+                color: #00ffff; 
+                box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);
+                text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+            }
+
+            .blade-runner .mobile-nav-main i { color: #ff4500; }
+            .blade-runner .mobile-nav-main { border-color: #ff4500; color: #ff4500; }
+            .blade-runner .mobile-nav-item { 
+                border-color: rgba(255, 69, 0, 0.3);
+                color: #ff4500;
+            }
+            .blade-runner .mobile-nav-item:hover { 
+                background: rgba(255, 69, 0, 0.2); 
+                color: #ffffff; 
+                box-shadow: 0 0 15px rgba(255, 69, 0, 0.6);
+                text-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+            }
+
+            .tron .mobile-nav-main i { color: #00ffff; }
+            .tron .mobile-nav-main { border-color: #00ffff; color: #00ffff; }
+            .tron .mobile-nav-item { 
+                border-color: rgba(0, 255, 255, 0.3);
+                color: #00ffff;
+            }
+            .tron .mobile-nav-item:hover { 
+                background: rgba(0, 255, 255, 0.2); 
+                color: #ffffff; 
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+                text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+            }
+
+            .alien-tech .mobile-nav-main i { color: #00ff00; }
+            .alien-tech .mobile-nav-main { border-color: #00ff00; color: #00ff00; }
+            .alien-tech .mobile-nav-item { 
+                border-color: rgba(0, 255, 0, 0.3);
+                color: #00ff00;
+            }
+            .alien-tech .mobile-nav-item:hover { 
+                background: rgba(0, 255, 0, 0.2); 
+                color: #ffffff; 
+                box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+                text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+            }
+
+            /* Design-specific mobile fonts to match desktop */
+            .terminal .mobile-nav-main span,
+            .terminal .mobile-nav-item {
+                font-family: 'Courier New', monospace;
+                font-weight: 600;
+            }
+
+            .synthwave .mobile-nav-main span,
+            .synthwave .mobile-nav-item {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+            }
+
+            .blade-runner .mobile-nav-main span,
+            .blade-runner .mobile-nav-item {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 400;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            .tron .mobile-nav-main span,
+            .tron .mobile-nav-item {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 600;
+            }
+
+            .alien-tech .mobile-nav-main span,
+            .alien-tech .mobile-nav-item {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 500;
+            }
+
+            /* Additional design-specific fonts for consistency */
+            .holographic .mobile-nav-main span,
+            .holographic .mobile-nav-item {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 600;
+            }
+
+            .neural .mobile-nav-main span,
+            .neural .mobile-nav-item {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 600;
+            }
+
+            .projection .mobile-nav-main span,
+            .projection .mobile-nav-item {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 600;
+            }
+
+            .circuit .mobile-nav-main span,
+            .circuit .mobile-nav-item {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 600;
+            }
+
+            .dashboard .mobile-nav-main span,
+            .dashboard .mobile-nav-item {
+                font-family: 'Orbitron', sans-serif;
+                font-weight: 600;
+            }
+
+            .crt .mobile-nav-main span,
+            .crt .mobile-nav-item {
+                font-family: 'Courier New', monospace;
+                font-weight: 600;
+            }
+
+            /* Hide desktop navigation on mobile */
+            .nav-tabs {
+                display: none !important;
+            }
+
+            /* Show mobile navigation */
+            .mobile-nav-tree {
+                display: block !important;
+            }
+
+            /* Ensure dropdowns are hidden on mobile */
+            .dropdown-content {
+                display: none !important;
+            }
+
+            /* Ensure mobile navigation is properly styled */
+            .mobile-nav-main {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
+                background: rgba(0, 0, 0, 0.8);
+                border: 2px solid currentColor;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-bottom: 1rem;
+            }
+
+            /* Disable complex animations on mobile for performance */
+            .holographic .nav-tab::before,
+            .neural .nav-tab::before,
+            .projection .nav-tab::before,
+            .circuit .nav-tab::before,
+            .dashboard .nav-tab::before,
+            .synthwave .nav-tabs::before,
+            .blade-runner .nav-tab::before,
+            .tron .nav-tab::before,
+            .alien-tech .nav-tab::before {
+                display: none;
+            }
+
+            /* Mobile sound effect adjustments */
+            .sound-effect {
+                top: 10px;
+                right: 10px;
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .test-container {
+                padding: 0.5rem;
+            }
+
+            .test-section {
+                padding: 0.75rem;
+            }
+
+            .test-title {
+                font-size: 1.3rem;
+            }
+
+            .nav-tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .nav-tab i {
+                font-size: 1rem;
+                width: 18px;
+            }
+
+            .nav-demo .dropdown-container .dropdown-item {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+            
+            /* Neural Network mobile optimizations */
+            .neural .mobile-nav-main {
+                width: 60px;
+                height: 60px;
+            }
+            .neural .mobile-nav-main i {
+                font-size: 1rem;
+            }
+            .neural .mobile-nav-main::before {
+                width: 4px;
+                height: 4px;
+            }
+            .neural .mobile-nav-item {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.8rem;
+            }
+            .neural .mobile-nav-item::before {
+                width: 2px;
+                height: 2px;
+                left: 0;
+            }
+            .neural .dropdown-container .dropdown-content {
+                padding: 0.25rem 0;
+            }
+            .neural .dropdown-container .dropdown-item {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.8rem;
+            }
+            .neural .dropdown-container .dropdown-item::before {
+                width: 3px;
+                height: 3px;
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 style="text-align: center; color: #00d4ff; font-size: 3rem; margin-bottom: 3rem; font-family: 'Orbitron', sans-serif;">
+            Navigation Design Tests
+        </h1>
+
+        <!-- Design 1: Holographic Floating Tabs -->
+        <div class="test-section">
+            <h2 class="test-title">1. Holographic Floating Tabs</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Floating tabs with glow effects, particle animations, and 3D hover transformations.
+            </p>
+            <nav class="nav-demo holographic">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-cube"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 2: Neural Network Connection Style -->
+        <div class="test-section">
+            <h2 class="test-title">2. Neural Network Connection Style</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Circular nodes with connecting lines, data flow animations, and network-like interactions.
+            </p>
+            <nav class="nav-demo neural">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 3: Terminal/Matrix Style -->
+        <div class="test-section">
+            <h2 class="test-title">3. Terminal/Matrix Style</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Green terminal text, typing animations, cursor effects, and matrix-style scanning.
+            </p>
+            <nav class="nav-demo terminal">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-terminal"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 4: Holographic Projection Effect -->
+        <div class="test-section">
+            <h2 class="test-title">4. Holographic Projection Effect</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                3D transform effects, depth with shadows, projection lines, and color-shifting gradients.
+            </p>
+            <nav class="nav-demo projection">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-hologram"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 5: Circuit Board Design -->
+        <div class="test-section">
+            <h2 class="test-title">5. Circuit Board Design</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Circuit-like connecting lines, animated power flow, electronic component styling, and LED indicators.
+            </p>
+            <nav class="nav-demo circuit">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-microchip"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 6: Futuristic Dashboard Style -->
+        <div class="test-section">
+            <h2 class="test-title">6. Futuristic Dashboard Style</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Radar-like scanning effects, status indicators, progress bars, and control panel button styling.
+            </p>
+            <nav class="nav-demo dashboard">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="holographic">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- NEW RETRO-FUTURISTIC DESIGNS -->
+
+        <!-- Design 7: Retro-Futuristic CRT Monitor Style -->
+        <div class="test-section">
+            <h2 class="test-title">7. Retro-Futuristic CRT Monitor Style</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                70s/80s CRT monitor aesthetic with scan lines, flicker effects, and green phosphor glow.
+            </p>
+            <nav class="nav-demo crt">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-tv"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="crt">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 8: Holographic Dropdown with Sound -->
+        <div class="test-section">
+            <h2 class="test-title">8. Holographic Dropdown with Sound Effects</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Interactive dropdown menus with holographic effects and audio feedback.
+            </p>
+            <nav class="nav-demo holographic-dropdown">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-cube"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 9: Synthwave Grid with Dropdowns -->
+        <div class="test-section">
+            <h2 class="test-title">9. Synthwave Grid with Dropdowns (80s Retro)</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Synthwave aesthetic with neon pink/cyan colors, grid animations, dropdown menus, and 80s retro vibes.
+            </p>
+            <nav class="nav-demo synthwave">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-music"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 10: Blade Runner Style -->
+        <div class="test-section">
+            <h2 class="test-title">10. Blade Runner Style</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Dark, moody aesthetic inspired by Blade Runner with orange/white color scheme and atmospheric effects.
+            </p>
+            <nav class="nav-demo blade-runner">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-city"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="blade-runner">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="blade-runner">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="blade-runner">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="blade-runner">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="blade-runner">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 11: Tron Light Cycles -->
+        <div class="test-section">
+            <h2 class="test-title">11. Tron Light Cycles</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Tron-inspired design with cyan/white colors, glowing effects, and digital grid aesthetics.
+            </p>
+            <nav class="nav-demo tron">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-motorcycle"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="tron">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="tron">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="tron">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="tron">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="tron">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Design 12: Alien Tech -->
+        <div class="test-section">
+            <h2 class="test-title">12. Alien Tech</h2>
+            <p style="margin-bottom: 2rem; color: rgba(255, 255, 255, 0.8);">
+                Alien technology aesthetic with green glow, radial effects, and otherworldly animations.
+            </p>
+            <nav class="nav-demo alien-tech">
+                <div class="nav-container">
+                    <ul class="nav-tabs">
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mission Statement</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Background</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Skills</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Current Roles</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Past Experience</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Projects</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Digital Medium</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Mixed Media</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Collaborations</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Degrees</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Certifications</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Training</a>
+                            </div>
+                        </li>
+                        <li class="dropdown-container">
+                            <a href="#" class="nav-tab" data-sound="dropdown">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact ▼</span>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Email</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">LinkedIn</a>
+                                <a href="#" class="dropdown-item" data-sound="menu-item">Social Media</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Mobile Navigation Tree -->
+                    <div class="mobile-nav-tree">
+                        <div class="mobile-nav-main" onclick="toggleMobileNav(this)">
+                            <i class="fas fa-rocket"></i>
+                            <span>Navigation Menu</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="mobile-nav-submenu">
+                            <div class="mobile-nav-item" data-sound="alien">
+                                <i class="fas fa-user-astronaut"></i>
+                                <span>About</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="alien">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Experience</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="alien">
+                                <i class="fas fa-rocket"></i>
+                                <span>Portfolio</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="alien">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Education</span>
+                            </div>
+                            <div class="mobile-nav-item" data-sound="alien">
+                                <i class="fas fa-envelope"></i>
+                                <span>Contact</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
+    </div>
+
+    <!-- Sound Effect Display -->
+    <div class="sound-effect" id="soundEffect"></div>
+
+    <script>
+        // Create audio context for sound effects
+        let audioContext;
+        let masterGain;
+
+        // Initialize audio context
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                masterGain = audioContext.createGain();
+                masterGain.connect(audioContext.destination);
+                masterGain.gain.value = 0.3; // Set volume to 30%
+            } catch (e) {
+                console.log('Web Audio API not supported');
+            }
+        }
+
+        // Generate different sound effects
+        function generateSound(type) {
+            if (!audioContext) return;
+
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(masterGain);
+
+            // Set different sounds based on type
+            switch(type) {
+                case 'crt':
+                    // CRT monitor beep
+                    oscillator.type = 'square';
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    break;
+                    
+                case 'synthwave':
+                    // Synthwave pulse
+                    oscillator.type = 'sawtooth';
+                    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.2);
+                    gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                    break;
+                    
+                case 'blade-runner':
+                    // Blade Runner ambient
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(75, audioContext.currentTime + 0.3);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    break;
+                    
+                case 'tron':
+                    // Tron light cycle
+                    oscillator.type = 'triangle';
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + 0.15);
+                    gainNode.gain.setValueAtTime(0.12, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+                    break;
+                    
+                case 'alien':
+                    // Alien technology
+                    oscillator.type = 'sawtooth';
+                    oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.25);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.25);
+                    break;
+                    
+                case 'cyberpunk':
+                    // Cyberpunk neon streets
+                    oscillator.type = 'square';
+                    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.2);
+                    gainNode.gain.setValueAtTime(0.12, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                    break;
+                    
+                case 'dropdown':
+                    // Dropdown menu sound
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.08, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    break;
+                    
+                case 'menu-item':
+                    // Menu item selection
+                    oscillator.type = 'square';
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.05);
+                    gainNode.gain.setValueAtTime(0.06, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+                    break;
+                    
+                default:
+                    // Default holographic sound
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(250, audioContext.currentTime + 0.2);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            }
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+
+        // Sound effect function with visual and audio
+        function playSoundEffect(type) {
+            // Generate audio sound
+            generateSound(type);
+            
+            // Show visual notification
+            const soundEffect = document.getElementById('soundEffect');
+            const sounds = {
+                'holographic': '🔊 Holographic Interface Activated',
+                'crt': '📺 CRT Monitor Beep',
+                'dropdown': '🔽 Dropdown Menu Opened',
+                'menu-item': '⚡ Menu Item Selected',
+                'synthwave': '🎶 Synthwave Pulse',
+                'blade-runner': '🌃 Blade Runner Ambience',
+                'tron': '💫 Tron Light Cycle',
+                'alien': '👽 Alien Technology',
+                'cyberpunk': '🌃 Cyberpunk Neon Streets'
+            };
+            
+            soundEffect.textContent = sounds[type] || '🔊 Sound Effect';
+            soundEffect.classList.add('show');
+            
+            setTimeout(() => {
+                soundEffect.classList.remove('show');
+            }, 2000);
+        }
+
+        // Add click functionality to test tabs
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Play sound effect
+                const soundType = this.getAttribute('data-sound');
+                if (soundType) {
+                    playSoundEffect(soundType);
+                } else {
+                    // Default sound for designs without specific sound
+                    playSoundEffect('holographic');
+                }
+                
+                // Remove active class from all tabs in the same nav
+                const nav = this.closest('.nav-tabs');
+                nav.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+            });
+        });
+
+        // Add hover sound effects for dropdown items
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                const soundType = this.getAttribute('data-sound');
+                if (soundType) {
+                    playSoundEffect(soundType);
+                }
+            });
+        });
+
+        // Add hover sound effects for dropdown triggers
+        document.querySelectorAll('.dropdown-container .nav-tab').forEach(tab => {
+            tab.addEventListener('mouseenter', function() {
+                const soundType = this.getAttribute('data-sound');
+                if (soundType) {
+                    playSoundEffect(soundType);
+                }
+            });
+        });
+
+        // Initialize audio when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initAudio();
+        });
+
+        // Initialize audio on first user interaction (required by browsers)
+        document.addEventListener('click', function() {
+            if (!audioContext || audioContext.state === 'suspended') {
+                initAudio();
+                if (audioContext) {
+                    audioContext.resume();
+                }
+            }
+        }, { once: true });
+
+        // Mobile navigation toggle function
+        function toggleMobileNav(element) {
+            const navTree = element.closest('.mobile-nav-tree');
+            navTree.classList.toggle('active');
+            
+            // Play sound effect
+            const soundType = 'dropdown';
+            if (soundType) {
+                playSoundEffect(soundType);
+            }
+        }
+
+        // Add click functionality to mobile nav items
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const soundType = this.getAttribute('data-sound');
+                if (soundType) {
+                    playSoundEffect(soundType);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
