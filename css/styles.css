@@ -22,6 +22,29 @@ body {
     max-width: 100vw;
 }
 
+/* Skip link for keyboard users */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+.skip-link:focus {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    background: #000;
+    color: #00d4ff;
+    border: 2px solid #00d4ff;
+    border-radius: 6px;
+    z-index: 10000;
+}
+
 /* Add this new class to prevent scrolling during the intro */
 body.intro-active {
     overflow: hidden;
@@ -2919,6 +2942,35 @@ body.intro-active {
     outline: 3px solid #00d4ff;
     outline-offset: 3px;
     box-shadow: 0 0 25px rgba(0, 212, 255, 0.6);
+}
+
+/* Prefer :focus-visible where supported */
+.nav-tab:focus-visible,
+.project-link:focus-visible,
+.audio-btn:focus-visible,
+.mobile-nav-item:focus-visible,
+.clickable-entry:focus-visible,
+.project-card:focus-visible,
+.experience-card:focus-visible,
+.education-card:focus-visible,
+.contact-card:focus-visible {
+    outline: 3px solid #00d4ff;
+    outline-offset: 3px;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.7);
+}
+
+/* Make interactive non-semantic elements visually focusable */
+.mobile-nav-item,
+.clickable-entry {
+    cursor: pointer;
+}
+
+/* Ensure links and controls have visible focus */
+a:focus,
+button:focus {
+    outline: 3px solid #00d4ff;
+    outline-offset: 3px;
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
 }
 
 /* Enhanced Sci-Fi Effects */
