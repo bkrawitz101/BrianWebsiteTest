@@ -33,7 +33,6 @@
 
 </head>
 <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
     <!-- TRON/Star Trek TNG Console Wrapper -->
     <div class="console-wrapper">
         <div class="console-grid"></div>
@@ -64,7 +63,7 @@
     </div>
 
     <!-- Video Intro Overlay -->
-    <div id="videoIntro" class="video-intro" aria-hidden="true">
+    <div id="videoIntro" class="video-intro">
         <video id="introVideo" class="intro-video" muted playsinline webkit-playsinline preload="none">
             <source src="assets/video/Retro_Futuristic_City_Sunrise_Video.webm" type="video/webm">
             <source src="assets/video/Retro_Futuristic_City_Sunrise_Video.mp4" type="video/mp4">
@@ -72,7 +71,7 @@
         </video>
         <div class="video-overlay">
             <div class="intro-content">
-                <h2 id="intro-title" class="intro-title">Brian Krawitz</h2>
+                <h1 class="intro-title">Brian Krawitz</h1>
                 <p class="intro-subtitle">Creative Technology Evangelist</p>
                 <div class="loading-bar">
                     <div class="loading-progress"></div>
@@ -105,7 +104,7 @@
         </div>
 
         <!-- Header with Logo and Contact -->
-        <header class="header" role="banner">
+        <header class="header">
             <div class="header-content">
                 <div class="header-card">
                     <div class="header-content-wrapper">
@@ -128,36 +127,36 @@
             </div>
             
             <!-- Navigation Tabs -->
-            <nav class="top-nav neural" role="navigation" aria-label="Primary navigation">
+            <nav class="top-nav neural">
                 <div class="nav-container">
                     <ul class="nav-tabs">
                         <li>
-                            <a href="#about" class="nav-tab active" data-section="about" title="Mission" aria-label="Mission">
-                                <i class="fas fa-user-astronaut" aria-hidden="true"></i>
+                            <a href="#about" class="nav-tab active" data-section="about" title="Mission">
+                                <i class="fas fa-user-astronaut"></i>
                                 <span class="nav-label">Mission</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#experience" class="nav-tab" data-section="experience" title="Experience" aria-label="Experience">
-                                <i class="fas fa-briefcase" aria-hidden="true"></i>
+                            <a href="#experience" class="nav-tab" data-section="experience" title="Experience">
+                                <i class="fas fa-briefcase"></i>
                                 <span class="nav-label">Experience</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#portfolio" class="nav-tab" data-section="portfolio" title="Portfolio" aria-label="Portfolio">
-                                <i class="fas fa-rocket" aria-hidden="true"></i>
+                            <a href="#portfolio" class="nav-tab" data-section="portfolio" title="Portfolio">
+                                <i class="fas fa-rocket"></i>
                                 <span class="nav-label">Portfolio</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#education" class="nav-tab" data-section="education" title="Education" aria-label="Education">
-                                <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                            <a href="#education" class="nav-tab" data-section="education" title="Education">
+                                <i class="fas fa-graduation-cap"></i>
                                 <span class="nav-label">Education</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#contact" class="nav-tab" data-section="contact" title="Contact" aria-label="Contact">
-                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                            <a href="#contact" class="nav-tab" data-section="contact" title="Contact">
+                                <i class="fas fa-envelope"></i>
                                 <span class="nav-label">Contact</span>
                             </a>
                         </li>
@@ -178,30 +177,30 @@
         </div>
         <div class="mobile-nav-submenu">
             <div class="mobile-nav-item" data-section="about">
-                <i class="fas fa-user-astronaut" aria-hidden="true"></i>
+                <i class="fas fa-user-astronaut"></i>
                 <span>Mission</span>
             </div>
             <div class="mobile-nav-item" data-section="experience">
-                <i class="fas fa-briefcase" aria-hidden="true"></i>
+                <i class="fas fa-briefcase"></i>
                 <span>Experience</span>
             </div>
             <div class="mobile-nav-item" data-section="portfolio">
-                <i class="fas fa-rocket" aria-hidden="true"></i>
+                <i class="fas fa-rocket"></i>
                 <span>Portfolio</span>
             </div>
             <div class="mobile-nav-item" data-section="education">
-                <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                <i class="fas fa-graduation-cap"></i>
                 <span>Education</span>
             </div>
             <div class="mobile-nav-item" data-section="contact">
-                <i class="fas fa-envelope" aria-hidden="true"></i>
+                <i class="fas fa-envelope"></i>
                 <span>Contact</span>
             </div>
         </div>
     </div>
 
         <!-- Main Content Area -->
-        <main id="main-content" class="main-content" role="main" aria-label="Main content">
+        <main class="main-content">
             <div class="main-content-background-video">
                 <video autoplay muted loop playsinline webkit-playsinline>
                     <source src="assets/video/Starfield.webm" type="video/webm">
@@ -209,9 +208,9 @@
                 </video>
             </div>
             <!-- About Section with 2001 Styling -->
-            <section id="about" class="content-section active" aria-labelledby="about-heading">
+            <section id="about" class="content-section active">
                 <div class="section-header">
-                    <h2 id="about-heading" tabindex="-1">About</h2>
+                    <h2>About</h2>
                     <div class="section-line"></div>
                 </div>
                 
@@ -241,9 +240,9 @@
             </section>
 
             <!-- Experience Section with Creative Layout -->
-            <section id="experience" class="content-section" aria-labelledby="experience-heading">
+            <section id="experience" class="content-section">
                 <div class="section-header">
-                    <h2 id="experience-heading" tabindex="-1">Experience</h2>
+                    <h2>Experience</h2>
                     <div class="section-line"></div>
                 </div>
                 
@@ -559,9 +558,9 @@
             </section>
 
             <!-- Portfolio Section with Creative Layout -->
-            <section id="portfolio" class="content-section" aria-labelledby="portfolio-heading">
+            <section id="portfolio" class="content-section">
                 <div class="section-header">
-                    <h2 id="portfolio-heading" tabindex="-1">Portfolio</h2>
+                    <h2>Portfolio</h2>
                     <div class="section-line"></div>
                 </div>
                 
@@ -973,9 +972,9 @@
             </section>
 
             <!-- Education Section -->
-            <section id="education" class="content-section" aria-labelledby="education-heading">
+            <section id="education" class="content-section">
                 <div class="section-header">
-                    <h2 id="education-heading" tabindex="-1">Education</h2>
+                    <h2>Education</h2>
                     <div class="section-line"></div>
                 </div>
                 
@@ -1031,9 +1030,9 @@
             </section>
 
             <!-- Contact Section -->
-            <section id="contact" class="content-section" aria-labelledby="contact-heading">
+            <section id="contact" class="content-section">
                 <div class="section-header">
-                    <h2 id="contact-heading" tabindex="-1">Contact</h2>
+                    <h2>Contact</h2>
                     <div class="section-line"></div>
                 </div>
                 

@@ -389,36 +389,6 @@ document.addEventListener('DOMContentLoaded', function() {
     AppState.contentSections = document.querySelectorAll('.content-section');
     AppState.navTabs = document.querySelectorAll('.nav-tab');
 
-    // Accessibility: set ARIA on icons and make non-semantic interactive elements keyboard-accessible
-    document.querySelectorAll('i.fas, i.fab').forEach(ic => {
-        ic.setAttribute('aria-hidden', 'true');
-    });
-
-    // Make clickable entries keyboard accessible
-    document.querySelectorAll('.clickable-entry').forEach(el => {
-        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
-        if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
-        el.setAttribute('aria-expanded', 'false');
-        el.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                el.click();
-            }
-        });
-    });
-
-    // Make mobile nav items keyboard accessible
-    document.querySelectorAll('.mobile-nav-item, .mobile-nav-main').forEach(el => {
-        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
-        if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
-        el.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                el.click();
-            }
-        });
-    });
-
     // Initialize all modules
     initVideoIntro();
     initBackgroundAudio();
@@ -473,11 +443,6 @@ function showSection(sectionId) {
     if (targetSection) {
         targetSection.classList.add('active');
         console.log('🔄 Added active to section:', sectionId);
-        // Focus the section heading for screen reader users
-        const heading = targetSection.querySelector('h2');
-        if (heading) {
-            heading.focus();
-        }
     } else {
         console.error('❌ Section not found:', sectionId);
     }
@@ -487,8 +452,6 @@ function showSection(sectionId) {
     if (activeTab) {
         activeTab.classList.add('active');
         console.log('🔄 Added active to nav tab:', sectionId);
-        // Move focus to the active nav tab for keyboard users
-        activeTab.focus();
     } else {
         console.log('⚠️ Nav tab not found for section:', sectionId);
     }
@@ -816,7 +779,6 @@ function initClickableEntries() {
                 
                 // Expand and start typing
                 entry.classList.add('expanded');
-                entry.setAttribute('aria-expanded', 'true');
                 content.style.display = 'block';
                 
                 // Update chevron to point up
@@ -956,7 +918,6 @@ function initClickableEntries() {
                 
                 // Collapse
                 entry.classList.remove('expanded');
-                entry.setAttribute('aria-expanded', 'false');
                 content.style.display = 'none';
                 
                 // Update chevron to point down
@@ -982,7 +943,6 @@ function initClickableEntries() {
                 
                 // Expand and start typing
                 entry.classList.add('expanded');
-                entry.setAttribute('aria-expanded', 'true');
                 content.style.display = 'block';
                 
                 // Update chevron to point up
@@ -1053,7 +1013,6 @@ function initClickableEntries() {
                 
                 // Collapse
                 entry.classList.remove('expanded');
-                entry.setAttribute('aria-expanded', 'false');
                 content.style.display = 'none';
                 
                 // Update chevron to point down
@@ -1261,14 +1220,6 @@ function toggleMobileNav(element) {
         const wasActive = navTree.classList.contains('active');
         navTree.classList.toggle('active');
         const isNowActive = navTree.classList.contains('active');
-
-        // Update accessibility attributes
-        try {
-            if (element && element.setAttribute) element.setAttribute('aria-expanded', String(isNowActive));
-            navTree.setAttribute('aria-hidden', String(!isNowActive));
-        } catch (err) {
-            // ignore
-        }
         
         console.log('🔄 Mobile nav toggled:', {
             wasActive: wasActive,
