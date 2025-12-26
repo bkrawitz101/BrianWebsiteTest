@@ -340,23 +340,16 @@ function transitionToMainSite() {
         
         // Fade out video intro
         videoIntro.classList.add('fade-out');
-
-        // --- KEY CHANGE: Make the main site visible ---
-        if (mainContainer) {
-            mainContainer.classList.remove('site-hidden');
-            // Scroll to the top of the document to ensure correct positioning
-            window.scrollTo(0, 0);
-        }
-        
-        // After fade animation, hide video intro
+        // Redirect to the About page after the intro finishes so the site is separate pages
         setTimeout(() => {
-            videoIntro.style.display = 'none';
-            // --- KEY CHANGE: Remove class from body to re-enable scrolling ---
+            // Ensure any intro locks are removed
             document.body.classList.remove('intro-active');
-
+            // Hide the intro overlay
+            videoIntro.style.display = 'none';
             videoIntro.classList.remove('fade-out');
-            console.log('🎬 Transition to main site complete. Scrolling enabled.');
-        }, 2000); // Match the CSS transition duration
+            console.log('🎬 Redirecting to About page');
+            window.location.href = 'about.html';
+        }, 800);
     }
 }
 
@@ -398,62 +391,85 @@ document.addEventListener('DOMContentLoaded', function() {
     initInteractiveEffects();
     initClickableEntries();
     initMobileNavigation();
+    initHeaderNavLayout();
     listAvailableVoices();
 });
 
+// Ensure header stays fixed and nav locks below it; content scrolls under nav
+function initHeaderNavLayout() {
+    const header = document.querySelector('.header');
+    const topNav = document.querySelector('.top-nav');
+    const main = document.querySelector('.main-content');
+    if (!header || !topNav || !main) return;
+
+    function applyLayout() {
+        const headerH = header.offsetHeight;
+        const navH = topNav.offsetHeight;
+
+        // Let the header remain in normal flow so it will scroll off the page.
+        header.style.position = '';
+        header.style.top = '';
+        header.style.left = '';
+        header.style.right = '';
+        header.style.zIndex = 1100;
+
+        // Make the top navigation sticky so it will lock to the top once scrolled into place.
+        // Sticky preserves layout space, so no layout jump is required.
+        topNav.style.position = '-webkit-sticky';
+        topNav.style.position = 'sticky';
+        // match the console inset so the nav locks inside the console border
+        topNav.style.top = '20px';
+        topNav.style.left = '';
+        topNav.style.right = '';
+        topNav.style.zIndex = 1115;
+
+        // Ensure the main content remains below the header/nav visually.
+        main.style.marginTop = '';
+        main.style.zIndex = 1;
+    }
+
+    // Run once and on resize
+    applyLayout();
+    window.addEventListener('resize', applyLayout);
+}
+
 // --- Navigation ---
 function initNavigation() {
-    // Add click event listeners to nav tabs using cached elements
-    AppState.navTabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            const sectionId = this.getAttribute('data-section');
-            showSection(sectionId);
+    // Nav tabs are now links to separate pages. Do not intercept clicks.
+    // Mark the current nav tab active based on the current URL/pathname.
+    try {
+        const current = window.location.pathname.split('/').pop() || 'index.html';
+        AppState.navTabs.forEach(t => t.classList.remove('active'));
+        AppState.navTabs.forEach(tab => {
+            const href = tab.getAttribute('href');
+            if (!href) return;
+            const hrefFile = href.split('/').pop();
+            if (hrefFile === current || (current === '' && hrefFile === 'index.html')) {
+                tab.classList.add('active');
+            }
         });
-    });
-
-    // Handle anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            showSection(targetId);
-        });
-    });
-
-    // Initialize with About section
-    showSection('about');
+    } catch (err) {
+        console.warn('initNavigation: could not set active tab', err);
+    }
 }
 
 // Global function to show section - accessible from anywhere
 function showSection(sectionId) {
     console.log('🔄 showSection called with:', sectionId);
-    
-    // Use cached elements from AppState
-    AppState.contentSections.forEach(section => {
-        section.classList.remove('active');
-    });
-
-    AppState.navTabs.forEach(tab => {
-        tab.classList.remove('active');
-    });
-
-    // Show target section
+    // New behavior: smooth-scroll to the section and mark nav tab active.
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
-        targetSection.classList.add('active');
-        console.log('🔄 Added active to section:', sectionId);
+        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        console.log('🔄 Scrolling to section:', sectionId);
     } else {
         console.error('❌ Section not found:', sectionId);
     }
 
-    // Add active class to clicked nav tab
-    const activeTab = document.querySelector(`.nav-tab[data-section="${sectionId}"]`);
-    if (activeTab) {
-        activeTab.classList.add('active');
-        console.log('🔄 Added active to nav tab:', sectionId);
-    } else {
-        console.log('⚠️ Nav tab not found for section:', sectionId);
+    // Update only the nav active state (do not hide/show sections)
+    if (AppState.navTabs) {
+        AppState.navTabs.forEach(tab => tab.classList.remove('active'));
+        const activeTab = document.querySelector(`.nav-tab[data-section="${sectionId}"]`);
+        if (activeTab) activeTab.classList.add('active');
     }
 }
 
@@ -1258,56 +1274,38 @@ function initMobileNavigation() {
     mobileNavItems.forEach((item, index) => {
         console.log(`📱 Adding click listener to mobile nav item ${index}:`, item.getAttribute('data-section'));
         item.addEventListener('click', function(e) {
-            console.log('📱 Mobile nav item clicked:', this.getAttribute('data-section'));
+            // If this is an <a> with an href, allow the browser to navigate normally
+            const href = this.getAttribute('href');
+            const section = this.getAttribute('data-section');
+            if (href) {
+                // Let the default navigation occur
+                return;
+            }
+
+            // Otherwise, handle legacy data-section behavior
             e.preventDefault();
             e.stopPropagation();
-            
-            const section = this.getAttribute('data-section');
+
             if (section) {
                 // Hide mobile menu
                 const navTree = this.closest('.mobile-nav-tree');
-                navTree.classList.remove('active');
-                
-                // Show the corresponding section
-                showSection(section);
-                
-                // Update active nav tab
-                document.querySelectorAll('.nav-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                
-                // Find and activate the corresponding desktop nav tab
-                const desktopTab = document.querySelector(`[data-section="${section}"]`);
-                if (desktopTab) {
-                    desktopTab.classList.add('active');
-                }
-                
-                console.log('📱 Mobile navigation: Switched to section:', section);
+                if (navTree) navTree.classList.remove('active');
+
+                // Navigate to the page for the section
+                window.location.href = section + '.html';
             }
         });
     });
     
-    // Add click functionality to dropdown items
+    // Add click functionality to dropdown items (allow normal link navigation)
     document.querySelectorAll('.dropdown-item').forEach(item => {
         item.addEventListener('click', function(e) {
-            e.preventDefault();
             const href = this.getAttribute('href');
-            if (href && href.startsWith('#')) {
+            if (!href) return;
+            if (href.startsWith('#')) {
+                e.preventDefault();
                 const section = href.substring(1);
                 showSection(section);
-                
-                // Update active nav tab
-                document.querySelectorAll('.nav-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                
-                // Find and activate the corresponding desktop nav tab
-                const desktopTab = document.querySelector(`[data-section="${section}"]`);
-                if (desktopTab) {
-                    desktopTab.classList.add('active');
-                }
-                
-                console.log('📱 Dropdown navigation: Switched to section:', section);
             }
         });
     });

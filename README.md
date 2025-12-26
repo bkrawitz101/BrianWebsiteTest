@@ -5,7 +5,7 @@ An elegant, sci-fi architectural portfolio website showcasing Brian Krawitz's wo
 ## Features
 
 - **Elegant Sci-Fi Design**: Black background with cyan accents and futuristic styling
-- **Category-Based Navigation**: No scrolling - clean section-based navigation
+-- **Category-Based Navigation**: Smooth anchor navigation — the site now uses a normal vertical scrolling layout (no overlapping/fullscreen panels)
 - **Thin Impactful Fonts**: Using Inter font family for modern, clean typography
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Interactive Elements**: Hover effects, animations, and smooth transitions
@@ -44,7 +44,7 @@ An elegant, sci-fi architectural portfolio website showcasing Brian Krawitz's wo
 ## Getting Started
 
 1. Open `index.html` in a web browser
-2. Navigate using the sidebar menu
+2. Navigate using the sidebar menu or click nav items to smoothly scroll to sections
 3. Explore different sections to learn about Brian's work
 4. Use keyboard navigation for accessibility
 
