@@ -123,7 +123,8 @@ body.intro-active {
     border-radius: 20px;
     margin: 20px;
     pointer-events: none;
-    z-index: 1001;
+    /* Keep the outline on the top-most layer */
+    z-index: 1300;
     box-shadow: 
         0 0 30px rgba(0, 212, 255, 0.4),
         inset 0 0 30px rgba(0, 212, 255, 0.1);
@@ -202,7 +203,8 @@ body.intro-active {
     width: 40px;
     height: 40px;
     border: 3px solid rgba(0, 212, 255, 0.8);
-    z-index: 1002;
+    /* corners sit above the outline */
+    z-index: 1305;
     pointer-events: none;
 }
 
@@ -244,7 +246,8 @@ body.intro-active {
     border: 1px solid rgba(0, 212, 255, 0.15);
     border-radius: 10px;
     backdrop-filter: none;
-    z-index: 1003;
+    /* panels sit under the text/data layer but above page content */
+    z-index: 1100;
     pointer-events: none;
     transition: all 0.3s ease;
 }
@@ -322,7 +325,8 @@ body.intro-active {
     height: 20px;
     background: radial-gradient(circle, rgba(0, 212, 255, 0.8), rgba(0, 212, 255, 0.2));
     border-radius: 50%;
-    z-index: 5;
+    /* data/status indicators sit inside the outline but below the outline itself */
+    z-index: 1250;
     pointer-events: none;
     animation: console-pulse 2s ease-in-out infinite;
 }
@@ -342,14 +346,47 @@ body.intro-active {
 
 .console-data-stream {
     position: fixed;
-    top: 50px;
+    /* keep the readout visible at the top-left inside the console border */
+    top: 12px;
     left: 30px;
     font-family: 'Orbitron', monospace;
     font-size: 12px;
     color: rgba(0, 212, 255, 0.6);
-    z-index: 5;
+    /* ensure text labels sit inside the outline, under the outline itself */
+    z-index: 1250;
     pointer-events: none;
     animation: data-stream 3s linear infinite;
+}
+
+/* Layout alignment: align header/nav/content to the inner console panel */
+.container {
+    padding-left: 40px;
+    padding-right: 40px;
+    /* keep container width matching the inner console panels and center it */
+    max-width: calc(100% - 80px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Header and Nav layering + behavior */
+.header {
+    position: relative;
+    /* place header above console panels but below console text/indicators and outline */
+    z-index: 1200; /* 3rd layer (between 1100 panel and 1250 data text) */
+}
+
+.top-nav {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 40px; /* stick to the top of the inner console area */
+    z-index: 1200; /* match header so it sits above panels but below the outline */
+    background: transparent; /* keep visual integration with console */
+}
+
+/* Main content should sit below header/nav */
+.main-content {
+    position: relative;
+    z-index: 1000; /* 4th layer */
 }
 
 .console-data-stream::before {
@@ -541,18 +578,24 @@ body.intro-active {
 
 /* Header with Enhanced Visibility */
 .header {
-    background: rgba(0, 0, 0, 0.9);
-    padding: 1.5rem 0;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    z-index: 200;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 1rem 0;
+    /* Let the header participate in normal document flow so it scrolls off */
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    z-index: 1100; /* keep above some decorations, but below sticky nav when needed */
     backdrop-filter: blur(20px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     overflow: visible;
-    border-radius: 25px;
+    border-radius: 12px;
     border-top: 2px solid rgba(0, 212, 255, 0.4);
+    margin: 0; /* remove extra spacing */
+    /* keep header inset inside the console border */
+    max-width: calc(100vw - 40px);
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 
@@ -560,7 +603,7 @@ body.intro-active {
 .header-content {
     width: 100%;
     margin: 0;
-    padding: 0 2rem;
+    padding: 0 20px; /* match console/header edges */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -939,23 +982,22 @@ body.intro-active {
 
 /* Enhanced Navigation */
 .top-nav {
-    background: rgba(0, 0, 0, 0.9);
+    background: transparent; /* nav sits inside the fixed header */
     margin-top: 0;
-    padding-top: 2rem; /* Add padding to create space for expanded items */
-    backdrop-filter: blur(20px);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    padding-top: 0;
+    backdrop-filter: none;
+    box-shadow: none;
     overflow: visible;
-    position: fixed;
-    z-index: 300;
-    z-index: 1006; /* Ensures nav is above the header (z-index: 200) */
-    left: 20px;
-    right: 20px;
+    position: relative; /* positioned within header */
+    z-index: 1110; /* ensure nav icons are on top of header */
+    left: 0;
+    right: 0;
 }
 
 .nav-container {
     max-width: none;
     margin: 0;
-    padding: 0 2rem;
+    padding: 0 20px; /* match header padding for exact alignment */
     overflow: visible;
     position: relative;
     z-index: 1000;
@@ -1026,13 +1068,20 @@ body.intro-active {
     align-items: center;
     padding: 2rem;
     background: rgba(0, 0, 0, 0.9);
-    border-radius: 25px;
+    /* match header corner radius for visual continuity */
+    border-radius: 12px;
     box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
-    position: fixed;
+    /* Use sticky so the nav will scroll up and then lock to the top */
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    /* Lock to the inside of the console frame (20px inset) */
+    top: 20px;
+    /* Keep nav width aligned to the console/header */
+    max-width: calc(100vw - 40px);
+    margin-left: 20px;
+    margin-right: 20px;
     overflow: visible;
-    z-index: 1000;
-    left: 20px;
-    right: 20px;
+    z-index: 1115; /* above the header when locked but below readouts */
     transform: translateZ(0);
 }
 
@@ -1321,10 +1370,10 @@ body.intro-active {
 .main-content {
     max-width: calc(100vw - 80px);
     margin: 0 auto;
-    margin-top: 280px; /* Adjusted for new header/nav layout */
+    margin-top: 0; /* content begins under the fixed header */
     padding: 2rem;
     position: relative;
-    z-index: 200;
+    z-index: 1; /* content scrolls under header/nav */
     min-height: auto;
     margin-left: 20px;
     margin-right: 20px;
@@ -1351,18 +1400,21 @@ body.intro-active {
     opacity: 0.3;
 }
 
-/* Content Sections */
+/* Content Sections — natural vertical stacking */
 .content-section {
-    display: none;
+    display: block; /* always participate in normal document flow */
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     max-width: 100%;
     word-wrap: break-word;
+    padding: 3rem 0; /* spacing between sections */
+    margin-bottom: 2rem;
+    min-height: 0; /* allow sections to grow with content */
 }
 
+/* Keep `.active` only for nav highlighting; it no longer hides sections */
 .content-section.active {
-    display: block;
-    margin-bottom: 1rem;
+    /* no layout changes here — used only as a marker */
 }
 
 /* Section Headers */
