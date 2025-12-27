@@ -27,9 +27,25 @@
       <div class="console-data-stream"></div>
   </div>
 
+  <!-- Background Audio (shared) -->
+  <audio id="backgroundAudio" loop preload="none">
+    <source src="assets/audio/Music_optimized.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Audio Control Button -->
+  <div id="audioControl" class="audio-control">
+    <button id="playAudioBtn" class="audio-btn">
+      <i class="fas fa-volume-mute"></i>
+      <span>Enable Audio</span>
+    </button>
+  </div>
+
+  <div class="container">
+  <div class="frame-inner">
   <header class="header">
     <div class="header-content">
-      <div class="header-card">
+      <div class="header-card frame-panel">
         <div class="header-content-wrapper">
           <div class="header-profile">
             <img src="images/bkai.jpg?v=4" alt="Brian Krawitz" class="profile-picture">
@@ -41,6 +57,8 @@
         </div>
       </div>
     </div>
+  </header>
+    <div class="frame-panel nav-frame">
     <nav class="top-nav neural">
       <div class="nav-container">
         <ul class="nav-tabs">
@@ -52,9 +70,10 @@
         </ul>
       </div>
     </nav>
-  </header>
+    </div>
+  </div>
 
-  <main class="main-content">
+  <main class="main-content frame-panel">
     <!-- Experience section copied from index -->
     <section id="experience" class="content-section">
       <div class="section-header">
@@ -72,6 +91,7 @@
       </div>
     </section>
   </main>
+  </div>
 
   <script src="js/script.js"></script>
 </body>

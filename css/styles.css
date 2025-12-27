@@ -347,25 +347,32 @@ body.intro-active {
 .console-data-stream {
     position: fixed;
     /* keep the readout visible at the top-left inside the console border */
-    top: 12px;
-    left: 30px;
+    /* position just inside the outer outline which has a 20px margin */
+    top: calc(20px + 8px);
+    left: calc(20px + 12px);
     font-family: 'Orbitron', monospace;
     font-size: 12px;
-    color: rgba(0, 212, 255, 0.6);
-    /* ensure text labels sit inside the outline, under the outline itself */
-    z-index: 1250;
+    color: rgba(0, 212, 255, 0.85);
+    /* ensure text labels sit inside the outline, under the outer outline itself */
+    /* place this slightly below the outline's z-index (console-border = 1300) */
+    z-index: 1295;
     pointer-events: none;
     animation: data-stream 3s linear infinite;
+    text-shadow: 0 0 6px rgba(0,212,255,0.45);
+    backdrop-filter: blur(4px);
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.15));
 }
 
 /* Layout alignment: align header/nav/content to the inner console panel */
 .container {
-    padding-left: 40px;
-    padding-right: 40px;
-    /* keep container width matching the inner console panels and center it */
-    max-width: calc(100% - 80px);
-    margin-left: auto;
-    margin-right: auto;
+    /* keep container matching inner console panels (40px inset each side) */
+    max-width: calc(100vw - 80px);
+    width: 100%;
+    margin: 20px auto;
+    padding: 0; /* internal horizontal padding applied to header/nav/main for consistency */
+    box-sizing: border-box;
 }
 
 /* Header and Nav layering + behavior */
@@ -379,8 +386,9 @@ body.intro-active {
     position: -webkit-sticky;
     position: sticky;
     top: 40px; /* stick to the top of the inner console area */
-    z-index: 1200; /* match header so it sits above panels but below the outline */
+    z-index: 1250; /* below console-border (1300) but above header/main */
     background: transparent; /* keep visual integration with console */
+    width: 100%;
 }
 
 /* Main content should sit below header/nav */
@@ -399,6 +407,16 @@ body.intro-active {
     26%, 50% { content: 'NEURAL NETWORK: ACTIVE'; }
     51%, 75% { content: 'QUANTUM CORE: STABLE'; }
     76%, 100% { content: 'ALL SYSTEMS: NOMINAL'; }
+}
+
+/* Responsive adjustments for the top-left readout so it stays inside outline on small screens */
+@media (max-width: 600px) {
+    .console-data-stream {
+        top: calc(12px + 4px);
+        left: calc(12px + 6px);
+        font-size: 11px;
+        padding: 1px 6px;
+    }
 }
 
 /* Mobile Responsiveness for Console */
@@ -511,18 +529,67 @@ body.intro-active {
 
 /* Container with Enhanced Visibility */
 .container {
-    min-height: calc(100vh - 40px);
-    background: transparent;
+    /* Ensure a single consistent container definition (keeps content inside the console frame)
+       This second block reinforces the same values for any cascade ordering */
+    max-width: calc(100vw - 80px);
+    width: 100%;
+    margin: 20px auto;
+    padding: 0;
+    box-sizing: border-box;
     position: relative;
-    overflow: visible;
-    max-width: calc(100vw - 40px);
-    margin: 0 auto;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 20px;
     z-index: 200;
+}
+
+/* Inner frame wrapper used to align header, nav, and body content exactly
+   This keeps a single max-width and horizontal padding shared by hero, nav, and main */
+.frame-inner {
+    max-width: calc(100vw - 80px);
+    margin: 0 auto;
+    padding: 0 40px; /* matches console panel inset */
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Shared framed panel used for header, nav, and main body so they match visually */
+.frame-panel {
+    background: linear-gradient(180deg, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.78) 100%);
+    border-radius: 15px;
+    border: 1px solid rgba(0,212,255,0.12);
+    box-shadow: 0 12px 40px rgba(0,212,255,0.06), inset 0 0 30px rgba(0,212,255,0.03);
+    backdrop-filter: blur(10px);
+    padding: 18px; /* inner gap between outline and content */
+    margin-bottom: 22px;
+}
+
+.nav-frame {
+    padding: 10px 0; /* tighten vertical space for the nav row */
+}
+
+/* Outline pseudo-element for frame-panel so each framed block has a visible outline
+   that matches the body frame. The outline sits below the global console border (1300)
+   but above most page content so it remains visible. */
+.frame-panel {
+    position: relative;
+    z-index: 1220; /* content of the panel sits below the nav (1250) */
+}
+.frame-panel::before {
+    content: '';
+    position: absolute;
+    /* increase negative inset so the outline fully wraps even when close to other elements */
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border-radius: 22px;
+    border: 2px solid rgba(0,212,255,0.28);
+    box-shadow: 0 10px 36px rgba(0,212,255,0.10), inset 0 0 22px rgba(0,212,255,0.04);
+    pointer-events: none;
+    z-index: 1295; /* below console outline (1300) */
+}
+
+/* Ensure the inner frame doesn't clip the outline pseudo-element */
+.frame-inner {
+    overflow: visible;
 }
 
 /* Page site container boundaries */
@@ -592,10 +659,8 @@ body.intro-active {
     border-radius: 12px;
     border-top: 2px solid rgba(0, 212, 255, 0.4);
     margin: 0; /* remove extra spacing */
-    /* keep header inset inside the console border */
-    max-width: calc(100vw - 40px);
-    margin-left: 20px;
-    margin-right: 20px;
+    /* header width is controlled by the surrounding .container for consistent alignment */
+    width: 100%;
 }
 
 
@@ -603,7 +668,8 @@ body.intro-active {
 .header-content {
     width: 100%;
     margin: 0;
-    padding: 0 20px; /* match console/header edges */
+    /* apply the same horizontal padding used by main content; match console inset (40px) */
+    padding: 0 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -689,11 +755,11 @@ body.intro-active {
 }
 
 .header-card {
-    background: rgba(0, 0, 0, 0.9);
-    border-radius: 25px;
+    background: transparent; /* visual provided by .frame-panel */
+    border-radius: 15px; /* match frame-panel */
     padding: 0;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+    backdrop-filter: none;
+    box-shadow: none;
     position: relative;
     overflow: visible;
     transition: all 0.3s ease;
@@ -997,7 +1063,8 @@ body.intro-active {
 .nav-container {
     max-width: none;
     margin: 0;
-    padding: 0 20px; /* match header padding for exact alignment */
+    /* match console inset so nav icons sit flush inside the nav-panel */
+    padding: 0 40px;
     overflow: visible;
     position: relative;
     z-index: 1000;
@@ -1368,15 +1435,16 @@ body.intro-active {
 
 /* Main Content */
 .main-content {
-    max-width: calc(100vw - 80px);
-    margin: 0 auto;
-    margin-top: 0; /* content begins under the fixed header */
-    padding: 2rem;
+    /* fill the container width so header/nav/main share identical horizontal alignment */
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    margin-top: 0; /* content begins under the header */
+    /* same horizontal inner padding used by header/nav (match console inset) */
+    padding: 2rem 40px;
     position: relative;
     z-index: 1; /* content scrolls under header/nav */
     min-height: auto;
-    margin-left: 20px;
-    margin-right: 20px;
     overflow: visible;
     background: rgba(0, 0, 0, 0.8);
     border-radius: 15px;
@@ -2935,6 +3003,28 @@ body.intro-active {
     }
 }
 
+/* Responsive padding adjustments so the 40px inset reduces on smaller screens */
+@media (max-width: 992px) {
+    .header-content, .nav-container, .main-content {
+        padding-left: 28px !important;
+        padding-right: 28px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content, .nav-container, .main-content {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-content, .nav-container, .main-content {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+}
+
 /* Enhanced Scrollbar */
 ::-webkit-scrollbar {
     width: 12px;
@@ -3215,12 +3305,12 @@ body.intro-active {
     }
 }
 
-/* Audio Control Button */
 .audio-control {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 1000;
+    /* Raise above the console border so it is always visible */
+    z-index: 1400;
 }
 
 .audio-btn {
