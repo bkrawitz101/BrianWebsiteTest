@@ -46,10 +46,70 @@ function initBackgroundAudio() {
     const audioBtn = document.getElementById('playAudioBtn');
     
     if (backgroundAudio && audioBtn) {
+        // If we've already initialized the audio element, avoid re-calling load()/play()
+        // This prevents restarting playback on PJAX navigation.
+        if (backgroundAudio.dataset && backgroundAudio.dataset._initialized === 'true') {
+            if (!backgroundAudio.paused) {
+                audioBtn.innerHTML = '<i class="fas fa-volume-up"></i><span>Audio On</span>';
+                audioBtn.classList.add('playing');
+            } else {
+                audioBtn.innerHTML = '<i class="fas fa-volume-mute"></i><span>Enable Audio</span>';
+                audioBtn.classList.remove('playing');
+            }
+            return;
+        }
+
+        // Mark as initialized so subsequent calls are no-ops
+        try { backgroundAudio.dataset._initialized = 'true'; } catch (e) {}
+
         // Set volume to a subtle level
         backgroundAudio.volume = 0.3; 
         // Ensure audio loops
         backgroundAudio.loop = true;
+
+        // Persisted playback position key
+        const _AUDIO_TIME_KEY = 'bk_audio_time';
+        // Try to restore previous playback position if available
+        try {
+            const storedTime = parseFloat(localStorage.getItem(_AUDIO_TIME_KEY));
+            if (!isNaN(storedTime) && storedTime > 0) {
+                if (backgroundAudio.readyState > 0) {
+                    backgroundAudio.currentTime = Math.min(storedTime, backgroundAudio.duration || storedTime);
+                } else {
+                    const setTime = function() {
+                        try {
+                            backgroundAudio.currentTime = Math.min(storedTime, backgroundAudio.duration || storedTime);
+                        } catch (e) {}
+                        backgroundAudio.removeEventListener('loadedmetadata', setTime);
+                    };
+                    backgroundAudio.addEventListener('loadedmetadata', setTime);
+                }
+            }
+        } catch (e) {
+            console.warn('Could not restore audio time from localStorage', e);
+        }
+
+        // Save playback position periodically (throttled)
+        try {
+            let _lastSavedAt = 0;
+            backgroundAudio.addEventListener('timeupdate', function() {
+                const now = Date.now();
+                if (now - _lastSavedAt > 3000) { // every ~3s
+                    try { localStorage.setItem(_AUDIO_TIME_KEY, String(backgroundAudio.currentTime)); } catch (e) {}
+                    _lastSavedAt = now;
+                }
+            });
+
+            // Also save on pause/unload to capture final position
+            backgroundAudio.addEventListener('pause', function() {
+                try { localStorage.setItem(_AUDIO_TIME_KEY, String(backgroundAudio.currentTime)); } catch (e) {}
+            });
+            window.addEventListener('beforeunload', function() {
+                try { localStorage.setItem(_AUDIO_TIME_KEY, String(backgroundAudio.currentTime)); } catch (e) {}
+            });
+        } catch (e) {
+            console.warn('Could not attach timeupdate listener for audio position', e);
+        }
         
         // Audio control button functionality
         audioBtn.addEventListener('click', function() {
@@ -58,6 +118,8 @@ function initBackgroundAudio() {
                 backgroundAudio.play().then(() => {
                     audioBtn.innerHTML = '<i class="fas fa-volume-up"></i><span>Audio On</span>';
                     audioBtn.classList.add('playing');
+                    // Persist user preference
+                    try { localStorage.setItem('bk_audio_enabled', 'true'); } catch (e) {}
                     console.log('🎵 Background audio started successfully');
                 }).catch(function(error) {
                     console.error('🎵 Background audio play failed:', error);
@@ -68,6 +130,8 @@ function initBackgroundAudio() {
                 backgroundAudio.pause();
                 audioBtn.innerHTML = '<i class="fas fa-volume-mute"></i><span>Audio Off</span>';
                 audioBtn.classList.remove('playing');
+                // Persist user preference
+                try { localStorage.setItem('bk_audio_enabled', 'false'); } catch (e) {}
                 console.log('🔇 Background audio paused');
             }
         });
@@ -75,6 +139,25 @@ function initBackgroundAudio() {
         // Ensure button shows muted state initially
         audioBtn.innerHTML = '<i class="fas fa-volume-mute"></i><span>Enable Audio</span>';
         audioBtn.classList.remove('playing');
+
+        // If the user previously enabled audio, attempt to resume it now.
+        try {
+            const wasEnabled = localStorage.getItem('bk_audio_enabled') === 'true';
+            if (wasEnabled) {
+                // Ensure the audio element is loaded and try to play.
+                backgroundAudio.load();
+                backgroundAudio.play().then(() => {
+                    audioBtn.innerHTML = '<i class="fas fa-volume-up"></i><span>Audio On</span>';
+                    audioBtn.classList.add('playing');
+                    console.log('🎵 Background audio resumed from previous page');
+                }).catch((err) => {
+                    console.warn('🎵 Could not auto-resume audio (browser may block autoplay):', err);
+                });
+            }
+        } catch (e) {
+            console.warn('🎵 localStorage unavailable:', e);
+        }
+
         console.log('🎵 Background audio initialized');
     }
 }
@@ -347,8 +430,28 @@ function transitionToMainSite() {
             // Hide the intro overlay
             videoIntro.style.display = 'none';
             videoIntro.classList.remove('fade-out');
+            // Reveal the main container if it was hidden during the intro
+            try {
+                if (mainContainer && mainContainer.classList.contains('site-hidden')) {
+                    mainContainer.classList.remove('site-hidden');
+                }
+            } catch (e) {}
+            // Persist current audio state so the next page can resume if needed
+            try {
+                const backgroundAudio = document.getElementById('backgroundAudio');
+                if (backgroundAudio) {
+                    const enabled = !backgroundAudio.paused;
+                    localStorage.setItem('bk_audio_enabled', enabled ? 'true' : 'false');
+                }
+            } catch (e) {
+                console.warn('Could not persist audio state before redirect', e);
+            }
             console.log('🎬 Redirecting to About page');
-            window.location.href = 'about.html';
+            if (typeof pjaxNavigate === 'function') {
+                pjaxNavigate('about.html');
+            } else {
+                window.location.href = 'about.html';
+            }
         }, 800);
     }
 }
@@ -370,6 +473,8 @@ function startAudioOnInteraction() {
 }
 
 // --- Global State and Cached Elements ---
+// Prevent re-initializing background audio on PJAX/navigation
+let _backgroundAudioInitialized = false;
 const AppState = {
     contentSections: null,
     navTabs: null
@@ -388,6 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initInitiateSequence();
     initLazyLoading();
     initNavigation();
+    initPjaxNavigation();
     initInteractiveEffects();
     initClickableEntries();
     initMobileNavigation();
@@ -450,6 +556,133 @@ function initNavigation() {
         });
     } catch (err) {
         console.warn('initNavigation: could not set active tab', err);
+    }
+}
+
+// PJAX-style navigation: fetch page content and replace main container
+function initPjaxNavigation() {
+    // Intercept clicks on internal nav links to avoid full page reloads
+    document.addEventListener('click', function(e) {
+        if (e.defaultPrevented) return;
+        if (e.button && e.button !== 0) return; // only left-click
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // allow modifier shortcuts
+
+        const a = e.target.closest && e.target.closest('a');
+        if (!a) return;
+
+        const href = a.getAttribute('href') || '';
+        if (!href || href.startsWith('#')) return; // ignore anchors
+
+        // Ignore mailto/tel and external links
+        if (href.startsWith('mailto:') || href.startsWith('tel:')) return;
+        if (href.startsWith('http') && !href.startsWith(window.location.origin)) return;
+
+        // Only intercept likely HTML internal navigations
+        if (!href.endsWith('.html') && !href.endsWith('/') && !href.includes('.html#')) return;
+
+        // Allow links that open in new tab or explicitly target a different browsing context
+        if (a.target && a.target !== '' && a.target !== '_self') return;
+
+        // Prevent default and perform AJAX navigation
+        e.preventDefault();
+        pjaxNavigate(href);
+    });
+
+    // Handle back/forward navigation
+    window.addEventListener('popstate', function(ev) {
+        const url = (ev.state && ev.state.url) || window.location.pathname.split('/').pop() || 'index.html';
+        pjaxNavigate(url, {replace: true});
+    });
+}
+
+async function pjaxNavigate(url, opts = {}) {
+    try {
+        const response = await fetch(url, {credentials: 'same-origin'});
+        if (!response.ok) {
+            window.location.href = url; // fallback
+            return;
+        }
+
+        const text = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+
+        // Prefer replacing only the main content to preserve header/nav and mobile nav
+        const newMain = doc.querySelector('.main-content');
+        const curMain = document.querySelector('.main-content');
+
+        if (newMain && curMain) {
+            // Remove any background audio elements from the fetched content
+            try { newMain.querySelectorAll && newMain.querySelectorAll('#backgroundAudio').forEach(n => n.remove()); } catch (e) {}
+
+            // Replace only the main content (keeps header/nav outside the replacement)
+            curMain.innerHTML = newMain.innerHTML;
+
+            // Ensure the main container is visible (remove any intro hide class)
+            try {
+                const curContainer = document.querySelector('.container');
+                if (curContainer && curContainer.classList.contains('site-hidden')) curContainer.classList.remove('site-hidden');
+            } catch (e) {}
+
+            // Update document title
+            const newTitle = doc.querySelector('title');
+            if (newTitle) document.title = newTitle.textContent;
+
+            // Update active nav state
+            // Re-cache app state (nav tabs / sections) to reflect injected content
+            try {
+                AppState.contentSections = document.querySelectorAll('.content-section');
+                AppState.navTabs = document.querySelectorAll('.nav-tab');
+            } catch (e) {}
+
+            initNavigation();
+
+            // Re-initialize interactive modules for the newly injected content
+            initLazyLoading();
+            initInteractiveEffects();
+            initClickableEntries && initClickableEntries();
+            initMobileNavigation && initMobileNavigation();
+            initHeaderNavLayout && initHeaderNavLayout();
+
+            // Re-initialize audio UI (does not recreate audio element)
+            initBackgroundAudio();
+
+            // Re-run layout/navigation initializers to ensure header/nav are positioned
+            try {
+                initHeaderNavLayout && initHeaderNavLayout();
+                initMobileNavigation && initMobileNavigation();
+                initInteractiveEffects && initInteractiveEffects();
+                initClickableEntries && initClickableEntries();
+                initLazyLoading && initLazyLoading();
+            } catch (e) {
+                console.warn('Error re-initializing modules after PJAX:', e);
+            }
+
+            // Give the browser a chance to reflow and then trigger a resize event
+            requestAnimationFrame(() => {
+                try { window.dispatchEvent(new Event('resize')); } catch (e) {}
+            });
+
+            // Emit a custom event for other listeners
+            try { document.dispatchEvent(new CustomEvent('pjax:loaded', {detail:{url:path}})); } catch (e) {}
+
+            // Push or replace history
+            const path = url;
+            if (opts.replace) {
+                history.replaceState({url: path}, '', path);
+            } else {
+                history.pushState({url: path}, '', path);
+            }
+
+            // Scroll to top of new content
+            window.scrollTo({top:0, behavior:'smooth'});
+        } else {
+            // If container not found, fallback to full navigation
+            window.location.href = url;
+        }
+    } catch (err) {
+        console.error('PJAX navigation failed, falling back to full load:', err);
+        window.location.href = url;
     }
 }
 
