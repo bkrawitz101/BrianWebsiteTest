@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <style>
+        #initiateSequence {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .flashing-box {
+            padding: 20px;
+            border: 2px solid #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="initiateSequence" class="initiate-sequence">
+        <div class="sequence-content">
+            <div class="flashing-box">
+                <span class="sequence-text">INITIATE SEQUENCE</span>
+            </div>
+            <div class="sequence-subtitle">Click to begin experience</div>
+        </div>
+    </div>
+
+    <div id="videoIntro" style="display: none;">
+        <h1>Video Intro</h1>
+    </div>
+
+    <script>
+        function startVideoSequence() {
+            const videoIntro = document.getElementById('videoIntro');
+            if (videoIntro) {
+                videoIntro.style.display = 'block';
+            }
+        }
+
+        function initInitiateSequence() {
+            const initiateSequence = document.getElementById('initiateSequence');
+            if (initiateSequence) {
+                const flashingBox = initiateSequence.querySelector('.flashing-box');
+                if (flashingBox) {
+                    flashingBox.addEventListener('click', function() {
+                        console.log('Initiate sequence clicked');
+                        initiateSequence.style.display = 'none';
+                        startVideoSequence();
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initInitiateSequence();
+        });
+    </script>
+
+</body>
+</html>

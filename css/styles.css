@@ -22,17 +22,6 @@ body {
     max-width: 100vw;
 }
 
-/* Add this new class to prevent scrolling during the intro */
-body.intro-active {
-    overflow: hidden;
-}
-
-/* Class to hide the main site during the intro */
-.site-hidden {
-    visibility: hidden;
-    opacity: 0;
-}
-
 
 
 .mobile-nav-main {
@@ -123,8 +112,7 @@ body.intro-active {
     border-radius: 20px;
     margin: 20px;
     pointer-events: none;
-    /* Keep the outline on the top-most layer */
-    z-index: 1300;
+    z-index: 1001;
     box-shadow: 
         0 0 30px rgba(0, 212, 255, 0.4),
         inset 0 0 30px rgba(0, 212, 255, 0.1);
@@ -203,8 +191,7 @@ body.intro-active {
     width: 40px;
     height: 40px;
     border: 3px solid rgba(0, 212, 255, 0.8);
-    /* corners sit above the outline */
-    z-index: 1305;
+    z-index: 1002;
     pointer-events: none;
 }
 
@@ -246,8 +233,7 @@ body.intro-active {
     border: 1px solid rgba(0, 212, 255, 0.15);
     border-radius: 10px;
     backdrop-filter: none;
-    /* panels sit under the text/data layer but above page content */
-    z-index: 1100;
+    z-index: 1003;
     pointer-events: none;
     transition: all 0.3s ease;
 }
@@ -325,8 +311,7 @@ body.intro-active {
     height: 20px;
     background: radial-gradient(circle, rgba(0, 212, 255, 0.8), rgba(0, 212, 255, 0.2));
     border-radius: 50%;
-    /* data/status indicators sit inside the outline but below the outline itself */
-    z-index: 1250;
+    z-index: 5;
     pointer-events: none;
     animation: console-pulse 2s ease-in-out infinite;
 }
@@ -346,55 +331,14 @@ body.intro-active {
 
 .console-data-stream {
     position: fixed;
-    /* keep the readout visible at the top-left inside the console border */
-    /* position just inside the outer outline which has a 20px margin */
-    top: calc(20px + 8px);
-    left: calc(20px + 12px);
+    top: 50px;
+    left: 30px;
     font-family: 'Orbitron', monospace;
     font-size: 12px;
-    color: rgba(0, 212, 255, 0.85);
-    /* ensure text labels sit inside the outline, under the outer outline itself */
-    /* place this slightly below the outline's z-index (console-border = 1300) */
-    z-index: 1295;
+    color: rgba(0, 212, 255, 0.6);
+    z-index: 5;
     pointer-events: none;
     animation: data-stream 3s linear infinite;
-    text-shadow: 0 0 6px rgba(0,212,255,0.45);
-    backdrop-filter: blur(4px);
-    padding: 2px 8px;
-    border-radius: 6px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.15));
-}
-
-/* Layout alignment: align header/nav/content to the inner console panel */
-.container {
-    /* keep container matching inner console panels (40px inset each side) */
-    max-width: calc(100vw - 80px);
-    width: 100%;
-    margin: 20px auto;
-    padding: 0; /* internal horizontal padding applied to header/nav/main for consistency */
-    box-sizing: border-box;
-}
-
-/* Header and Nav layering + behavior */
-.header {
-    position: relative;
-    /* place header above console panels but below console text/indicators and outline */
-    z-index: 1200; /* 3rd layer (between 1100 panel and 1250 data text) */
-}
-
-.top-nav {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 40px; /* stick to the top of the inner console area */
-    z-index: 1250; /* below console-border (1300) but above header/main */
-    background: transparent; /* keep visual integration with console */
-    width: 100%;
-}
-
-/* Main content should sit below header/nav */
-.main-content {
-    position: relative;
-    z-index: 1000; /* 4th layer */
 }
 
 .console-data-stream::before {
@@ -407,16 +351,6 @@ body.intro-active {
     26%, 50% { content: 'NEURAL NETWORK: ACTIVE'; }
     51%, 75% { content: 'QUANTUM CORE: STABLE'; }
     76%, 100% { content: 'ALL SYSTEMS: NOMINAL'; }
-}
-
-/* Responsive adjustments for the top-left readout so it stays inside outline on small screens */
-@media (max-width: 600px) {
-    .console-data-stream {
-        top: calc(12px + 4px);
-        left: calc(12px + 6px);
-        font-size: 11px;
-        padding: 1px 6px;
-    }
 }
 
 /* Mobile Responsiveness for Console */
@@ -529,67 +463,18 @@ body.intro-active {
 
 /* Container with Enhanced Visibility */
 .container {
-    /* Ensure a single consistent container definition (keeps content inside the console frame)
-       This second block reinforces the same values for any cascade ordering */
-    max-width: calc(100vw - 80px);
-    width: 100%;
-    margin: 20px auto;
-    padding: 0;
-    box-sizing: border-box;
+    min-height: calc(100vh - 40px);
+    background: transparent;
     position: relative;
-    z-index: 200;
-}
-
-/* Inner frame wrapper used to align header, nav, and body content exactly
-   This keeps a single max-width and horizontal padding shared by hero, nav, and main */
-.frame-inner {
-    max-width: calc(100vw - 80px);
-    margin: 0 auto;
-    padding: 0 40px; /* matches console panel inset */
-    box-sizing: border-box;
-    width: 100%;
-}
-
-/* Shared framed panel used for header, nav, and main body so they match visually */
-.frame-panel {
-    background: linear-gradient(180deg, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.78) 100%);
-    border-radius: 15px;
-    border: 1px solid rgba(0,212,255,0.12);
-    box-shadow: 0 12px 40px rgba(0,212,255,0.06), inset 0 0 30px rgba(0,212,255,0.03);
-    backdrop-filter: blur(10px);
-    padding: 18px; /* inner gap between outline and content */
-    margin-bottom: 22px;
-}
-
-.nav-frame {
-    padding: 10px 0; /* tighten vertical space for the nav row */
-}
-
-/* Outline pseudo-element for frame-panel so each framed block has a visible outline
-   that matches the body frame. The outline sits below the global console border (1300)
-   but above most page content so it remains visible. */
-.frame-panel {
-    position: relative;
-    z-index: 1220; /* content of the panel sits below the nav (1250) */
-}
-.frame-panel::before {
-    content: '';
-    position: absolute;
-    /* increase negative inset so the outline fully wraps even when close to other elements */
-    top: -12px;
-    left: -12px;
-    right: -12px;
-    bottom: -12px;
-    border-radius: 22px;
-    border: 2px solid rgba(0,212,255,0.28);
-    box-shadow: 0 10px 36px rgba(0,212,255,0.10), inset 0 0 22px rgba(0,212,255,0.04);
-    pointer-events: none;
-    z-index: 1295; /* below console outline (1300) */
-}
-
-/* Ensure the inner frame doesn't clip the outline pseudo-element */
-.frame-inner {
     overflow: visible;
+    max-width: calc(100vw - 40px);
+    margin: 0 auto;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    z-index: 200;
 }
 
 /* Page site container boundaries */
@@ -645,22 +530,18 @@ body.intro-active {
 
 /* Header with Enhanced Visibility */
 .header {
-    background: rgba(0, 0, 0, 0.95);
-    padding: 1rem 0;
-    /* Let the header participate in normal document flow so it scrolls off */
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    z-index: 1100; /* keep above some decorations, but below sticky nav when needed */
+    background: rgba(0, 0, 0, 0.9);
+    padding: 1.5rem 0;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 200;
     backdrop-filter: blur(20px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     overflow: visible;
-    border-radius: 12px;
+    border-radius: 25px;
     border-top: 2px solid rgba(0, 212, 255, 0.4);
-    margin: 0; /* remove extra spacing */
-    /* header width is controlled by the surrounding .container for consistent alignment */
-    width: 100%;
 }
 
 
@@ -668,8 +549,7 @@ body.intro-active {
 .header-content {
     width: 100%;
     margin: 0;
-    /* apply the same horizontal padding used by main content; match console inset (40px) */
-    padding: 0 40px;
+    padding: 0 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -755,11 +635,11 @@ body.intro-active {
 }
 
 .header-card {
-    background: transparent; /* visual provided by .frame-panel */
-    border-radius: 15px; /* match frame-panel */
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 25px;
     padding: 0;
-    backdrop-filter: none;
-    box-shadow: none;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
     position: relative;
     overflow: visible;
     transition: all 0.3s ease;
@@ -1048,23 +928,21 @@ body.intro-active {
 
 /* Enhanced Navigation */
 .top-nav {
-    background: transparent; /* nav sits inside the fixed header */
+    background: rgba(0, 0, 0, 0.9);
     margin-top: 0;
-    padding-top: 0;
-    backdrop-filter: none;
-    box-shadow: none;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     overflow: visible;
-    position: relative; /* positioned within header */
-    z-index: 1110; /* ensure nav icons are on top of header */
-    left: 0;
-    right: 0;
+    position: fixed;
+    z-index: 300;
+    left: 20px;
+    right: 20px;
 }
 
 .nav-container {
     max-width: none;
     margin: 0;
-    /* match console inset so nav icons sit flush inside the nav-panel */
-    padding: 0 40px;
+    padding: 0 2rem;
     overflow: visible;
     position: relative;
     z-index: 1000;
@@ -1135,20 +1013,13 @@ body.intro-active {
     align-items: center;
     padding: 2rem;
     background: rgba(0, 0, 0, 0.9);
-    /* match header corner radius for visual continuity */
-    border-radius: 12px;
+    border-radius: 25px;
     box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
-    /* Use sticky so the nav will scroll up and then lock to the top */
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    /* Lock to the inside of the console frame (20px inset) */
-    top: 20px;
-    /* Keep nav width aligned to the console/header */
-    max-width: calc(100vw - 40px);
-    margin-left: 20px;
-    margin-right: 20px;
+    position: fixed;
     overflow: visible;
-    z-index: 1115; /* above the header when locked but below readouts */
+    z-index: 1000;
+    left: 20px;
+    right: 20px;
     transform: translateZ(0);
 }
 
@@ -1160,8 +1031,6 @@ body.intro-active {
     border: 2px solid #00d4ff;
     position: relative;
     z-index: 301;
-    position: relative; /* Keep relative positioning */
-    z-index: 1007; /* Ensure individual tabs are on top */
     color: #00d4ff;
     display: flex;
     flex-direction: column;
@@ -1250,8 +1119,6 @@ body.intro-active {
     color: #ffffff;
     text-shadow: 0 0 20px rgba(0, 212, 255, 1);
     z-index: 9999;
-    text-shadow: 0 0 20px rgba(0, 212, 255, 1); /* Keep text shadow */
-    z-index: 1008; /* Ensure hovered tab is on top of other tabs */
     background: radial-gradient(circle, rgba(0, 212, 255, 0.5), rgba(0, 0, 0, 0.9));
     position: relative;
 }
@@ -1435,16 +1302,15 @@ body.intro-active {
 
 /* Main Content */
 .main-content {
-    /* fill the container width so header/nav/main share identical horizontal alignment */
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    margin-top: 0; /* content begins under the header */
-    /* same horizontal inner padding used by header/nav (match console inset) */
-    padding: 2rem 40px;
+    max-width: calc(100vw - 80px);
+    margin: 0 auto;
+    margin-top: 280px; /* Space for fixed header + navigation */
+    padding: 2rem;
     position: relative;
-    z-index: 1; /* content scrolls under header/nav */
+    z-index: 200;
     min-height: auto;
+    margin-left: 20px;
+    margin-right: 20px;
     overflow: visible;
     background: rgba(0, 0, 0, 0.8);
     border-radius: 15px;
@@ -1468,21 +1334,18 @@ body.intro-active {
     opacity: 0.3;
 }
 
-/* Content Sections — natural vertical stacking */
+/* Content Sections */
 .content-section {
-    display: block; /* always participate in normal document flow */
+    display: none;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     max-width: 100%;
     word-wrap: break-word;
-    padding: 3rem 0; /* spacing between sections */
-    margin-bottom: 2rem;
-    min-height: 0; /* allow sections to grow with content */
 }
 
-/* Keep `.active` only for nav highlighting; it no longer hides sections */
 .content-section.active {
-    /* no layout changes here — used only as a marker */
+    display: block;
+    margin-bottom: 1rem;
 }
 
 /* Section Headers */
@@ -2488,39 +2351,137 @@ body.intro-active {
 @media (max-width: 768px) {
     /* Mobile Performance Optimizations */
     * {
-        /* These can cause issues, apply only where needed */
+        -webkit-overflow-scrolling: touch;
+        -webkit-transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
     }
     
     /* Completely disable console wrapper on mobile */
     .console-wrapper {
         display: none !important;
     }
-
-    body {
-        /* Ensure no fixed elements are causing layout shifts */
-        position: static !important;
+    
+    /* Reset all positioning for mobile */
+    .header,
+    .top-nav,
+    .neural .nav-tabs,
+    .container,
+    #page.site,
+    .site-footer,
+    .mobile-nav-tree {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        margin: 10px !important;
+        max-width: calc(100vw - 20px) !important;
     }
-
-    /* --- KEY CHANGE: Simplify Mobile Layout --- */
-    /* Reset all major components to flow naturally in the document */
-    .header, .top-nav, .container, .main-content, .mobile-nav-tree {
-        position: static !important; /* Use static to ensure they are in the normal flow */
-        top: auto; left: auto; right: auto; bottom: auto;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-        padding: 1rem !important;
-        float: none !important;
-        transform: none !important; /* Disable transforms */
-        backdrop-filter: none !important; /* Performance */
-    }
-
+    
+    /* Mobile-specific layout */
     .header {
-        margin-bottom: 1rem !important; /* Space after header */
+        backdrop-filter: none !important;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3) !important;
+        padding: 1rem 0 !important;
+        min-height: 140px !important;
+        border-radius: 25px !important;
+        border-top: 2px solid rgba(0, 212, 255, 0.4) !important;
+        z-index: 100 !important;
+        margin-bottom: 20px !important;
     }
-
+    
+    .top-nav {
+        z-index: 100 !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .neural .nav-tabs {
+        z-index: 100 !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .container {
+        -webkit-overflow-scrolling: touch;
+        z-index: 100 !important;
+        margin-top: 0 !important;
+    }
+    
+    #page.site {
+        z-index: 100 !important;
+        margin-top: 0 !important;
+    }
+    
+    .site-footer {
+        z-index: 100 !important;
+        margin-top: 20px !important;
+    }
+    
+    /* Ensure main content starts below header and nav */
     .main-content {
-        -webkit-overflow-scrolling: touch; /* Good for mobile scrolling */
+        margin-top: 0 !important;
+        padding-top: 2rem !important;
+        position: relative !important;
+        z-index: 100 !important;
+        max-width: calc(100vw - 20px) !important;
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+    
+    /* Fix mobile navigation overlap */
+    .mobile-nav-tree {
+        margin-bottom: 20px !important;
+        z-index: 100 !important;
+        position: relative !important;
+        display: block !important;
+    }
+    
+    .mobile-nav-tree.active {
+        margin-bottom: 40px !important;
+    }
+    
+    .mobile-nav-submenu {
+        margin-bottom: 20px !important;
+        z-index: 100 !important;
+        position: relative !important;
+    }
+    
+    /* Force main content to start below mobile nav */
+    .main-content {
+        clear: both !important;
+        margin-top: 0 !important;
+        padding-top: 2rem !important;
+        position: relative !important;
+        z-index: 100 !important;
+        max-width: calc(100vw - 20px) !important;
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+    
+    /* Ensure proper spacing after mobile nav */
+    .container,
+    #page.site {
+        margin-top: 20px !important;
+        clear: both !important;
+    }
+    
+    /* Aggressive mobile nav isolation */
+    .mobile-nav-tree,
+    .mobile-nav-main,
+    .mobile-nav-submenu {
+        float: none !important;
+        clear: both !important;
+        position: relative !important;
+        z-index: 100 !important;
+    }
+    
+    /* Force content separation */
+    .main-content::before {
+        content: '';
+        display: block;
+        clear: both;
+        height: 0;
+        margin: 0;
+        padding: 0;
     }
     
     .header-card,
@@ -2601,15 +2562,34 @@ body.intro-active {
         gap: 1rem !important;
     }
     
+    /* Fix navigation for mobile */
+    .top-nav {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        margin: 10px !important;
+        z-index: 100 !important;
+    }
+    
+    .neural .nav-tabs {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        margin: 10px !important;
+        z-index: 100 !important;
+    }
+    
     .main-content {
         padding: 2rem 1rem;
         margin-top: 20px;
+        -webkit-overflow-scrolling: touch;
         padding-top: 1rem;
         position: relative;
         z-index: 100;
-        -webkit-overflow-scrolling: touch; /* This is better placed here */
     }
-
+    
         .nav-tabs {
         display: none !important;
     }
@@ -3003,28 +2983,6 @@ body.intro-active {
     }
 }
 
-/* Responsive padding adjustments so the 40px inset reduces on smaller screens */
-@media (max-width: 992px) {
-    .header-content, .nav-container, .main-content {
-        padding-left: 28px !important;
-        padding-right: 28px !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .header-content, .nav-container, .main-content {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .header-content, .nav-container, .main-content {
-        padding-left: 12px !important;
-        padding-right: 12px !important;
-    }
-}
-
 /* Enhanced Scrollbar */
 ::-webkit-scrollbar {
     width: 12px;
@@ -3305,12 +3263,12 @@ body.intro-active {
     }
 }
 
+/* Audio Control Button */
 .audio-control {
     position: fixed;
     top: 20px;
     right: 20px;
-    /* Raise above the console border so it is always visible */
-    z-index: 1400;
+    z-index: 1000;
 }
 
 .audio-btn {
