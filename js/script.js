@@ -417,46 +417,36 @@ function startVideoSequence() {
 function transitionToMainSite() {
     const videoIntro = document.getElementById('videoIntro');
     const mainContainer = document.querySelector('.container');
-    
-    if (videoIntro && videoIntro.style.display !== 'none') {
-        console.log('🎬 Starting transition to main site');
-        
-        // Fade out video intro
-        videoIntro.classList.add('fade-out');
-        // Redirect to the About page after the intro finishes so the site is separate pages
-        setTimeout(() => {
-            // Ensure any intro locks are removed
-            document.body.classList.remove('intro-active');
-            // Hide the intro overlay
-            videoIntro.style.display = 'none';
-            videoIntro.classList.remove('fade-out');
-            // Reveal the main container if it was hidden during the intro
-            try {
-                if (mainContainer && mainContainer.classList.contains('site-hidden')) {
-                    mainContainer.classList.remove('site-hidden');
-                }
-            } catch (e) {}
-            // Persist current audio state so the next page can resume if needed
-            try {
-                const backgroundAudio = document.getElementById('backgroundAudio');
-                if (backgroundAudio) {
-                    const enabled = !backgroundAudio.paused;
-                    localStorage.setItem('bk_audio_enabled', enabled ? 'true' : 'false');
-                }
-            } catch (e) {
-                console.warn('Could not persist audio state before redirect', e);
-            }
-            console.log('🎬 Redirecting to About page');
-            // Capture DOM state before transition (diagnostic)
-            try { _captureDomSnapshot('before-transition'); } catch (e) {}
 
-            if (typeof pjaxNavigate === 'function') {
-                pjaxNavigate('about.html');
-            } else {
-                window.location.href = 'about.html';
-            }
-        }, 800);
+    console.log('🎬 Starting transition to main site');
+
+    // Immediately hide the intro overlay if present
+    if (videoIntro) {
+        try {
+            videoIntro.classList.remove('fade-out');
+            videoIntro.style.display = 'none';
+            videoIntro.style.opacity = '';
+            videoIntro.style.visibility = '';
+            videoIntro.style.zIndex = '';
+        } catch (e) {
+            console.warn('Could not fully reset videoIntro styles:', e);
+        }
     }
+
+    // Reveal the main container (remove the hide class) — do NOT redirect
+    try {
+        if (mainContainer && mainContainer.classList.contains('site-hidden')) {
+            mainContainer.classList.remove('site-hidden');
+        }
+    } catch (e) { console.warn('Could not reveal main container:', e); }
+
+    // Remove any intro locking class from body
+    try { document.body.classList.remove('intro-active'); } catch (e) {}
+
+    // Re-run application initialization (idempotent)
+    try { initApp(); } catch (e) { console.warn('initApp failed during transition:', e); }
+
+    console.log('🎬 Transition complete - main site revealed');
 }
 
 // Start audio on first user interaction (fallback)
