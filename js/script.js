@@ -447,6 +447,9 @@ function transitionToMainSite() {
                 console.warn('Could not persist audio state before redirect', e);
             }
             console.log('🎬 Redirecting to About page');
+            // Capture DOM state before transition (diagnostic)
+            try { _captureDomSnapshot('before-transition'); } catch (e) {}
+
             if (typeof pjaxNavigate === 'function') {
                 pjaxNavigate('about.html');
             } else {
@@ -480,6 +483,78 @@ const AppState = {
     navTabs: null
 };
 
+// Diagnostic helper: capture simple DOM + computed-style snapshot for debugging PJAX/layout issues
+function _captureDomSnapshot(label, opts) {
+    try {
+        opts = opts || {};
+        const header = document.querySelector('.header');
+        const topNav = document.querySelector('.top-nav');
+        const container = document.querySelector('.container');
+        const main = document.querySelector('.main-content');
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+
+        const snapshot = {
+            label: label || 'snapshot',
+            timestamp: Date.now(),
+            counts: {
+                header: !!header,
+                topNav: !!topNav,
+                container: !!container,
+                main: !!main,
+                mobileNavItems: mobileNavItems ? mobileNavItems.length : 0
+            },
+            styles: {}
+        };
+
+        const addStyles = (el, key) => {
+            if (!el) return;
+            const cs = window.getComputedStyle(el);
+            snapshot.styles[key] = {
+                display: cs.display,
+                visibility: cs.visibility,
+                position: cs.position,
+                top: cs.top,
+                zIndex: cs.zIndex,
+                height: el.offsetHeight,
+                width: el.offsetWidth
+            };
+        };
+
+        addStyles(header, 'header');
+        addStyles(topNav, 'topNav');
+        addStyles(container, 'container');
+        addStyles(main, 'main');
+
+        // Store last snapshot for retrieval and log concise summary
+        window.__lastPjaxSnapshot = snapshot;
+        console.log('📦 PJAX Snapshot:', snapshot);
+
+        // If requested, trigger a download of the snapshot as a JSON file.
+        if (opts.download) {
+            try {
+                const filename = opts.filename || `pjax-snapshot-${snapshot.timestamp}.json`;
+                const blob = new Blob([JSON.stringify(snapshot, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                // Append to DOM to make click work in some browsers
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    try { document.body.removeChild(a); } catch (e) {}
+                    try { URL.revokeObjectURL(url); } catch (e) {}
+                }, 100);
+                console.log('📥 PJAX snapshot download started:', filename);
+            } catch (e) {
+                console.warn('Could not download snapshot:', e);
+            }
+        }
+    } catch (e) {
+        console.warn('Could not capture DOM snapshot:', e);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 DOM Content Loaded - Starting initialization');
 
@@ -499,6 +574,73 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileNavigation();
     initHeaderNavLayout();
     listAvailableVoices();
+});
+
+// Central app initializer — idempotent; run on initial load and after PJAX loads
+function initApp() {
+    console.log('🔁 initApp: normalizing content and re-registering handlers');
+
+    // Ensure background audio is initialized but not restarted
+    try { initBackgroundAudio(); } catch (e) { console.warn('initBackgroundAudio in initApp failed:', e); }
+
+    // Normalize sections: show only the relevant section inside .main-content
+    try { hideOtherSections(); } catch (e) { console.warn('hideOtherSections failed:', e); }
+
+    // Ensure layout recalculation after any DOM changes
+    requestAnimationFrame(() => setTimeout(() => {
+        try { initHeaderNavLayout && initHeaderNavLayout(); } catch (e) {}
+        try { initMobileNavigation && initMobileNavigation(); } catch (e) {}
+        try { window.dispatchEvent(new Event('resize')); } catch (e) {}
+    }, 80));
+}
+
+// Hide other sections in .main-content so only the intended section shows
+function hideOtherSections() {
+    // Operate on all .content-section elements in the document to avoid
+    // cases where sections exist outside .main-content after PJAX.
+    const sections = Array.from(document.querySelectorAll('.content-section'));
+    if (!sections || sections.length === 0) return;
+
+    // Determine active section preference order:
+    // 1. explicit .active class
+    // 2. section whose id matches the current pathname (e.g., about.html -> #about)
+    // 3. first section inside .main-content
+    // 4. first section overall
+    let active = sections.find(s => s.classList.contains('active'));
+    if (!active) {
+        const current = window.location.pathname.split('/').pop();
+        if (current) {
+            const expectedId = current.replace('.html', '') || null;
+            if (expectedId) {
+                const byId = sections.find(s => s.id === expectedId);
+                if (byId) active = byId;
+            }
+        }
+    }
+
+    if (!active) {
+        const main = document.querySelector('.main-content');
+        if (main) active = Array.from(main.querySelectorAll('.content-section'))[0] || null;
+    }
+    if (!active) active = sections[0];
+
+    console.log('hideOtherSections: chosen active section:', active && (active.id || active.className));
+
+    sections.forEach(s => {
+        if (s === active) {
+            s.classList.remove('section-hidden');
+            s.style.display = '';
+        } else {
+            s.classList.add('section-hidden');
+            s.style.display = 'none';
+        }
+    });
+}
+
+// When PJAX completes, run app init
+document.addEventListener('pjax:loaded', function(e) {
+    console.log('ℹ️ pjax:loaded event received', e && e.detail ? e.detail : '');
+    try { initApp(); } catch (err) { console.warn('initApp after pjax:loaded failed:', err); }
 });
 
 // Ensure header stays fixed and nav locks below it; content scrolls under nav
@@ -585,6 +727,7 @@ function initPjaxNavigation() {
 
         // Prevent default and perform AJAX navigation
         e.preventDefault();
+        console.log('🔗 PJAX intercept click:', href);
         pjaxNavigate(href);
     });
 
@@ -647,24 +790,41 @@ async function pjaxNavigate(url, opts = {}) {
             // Re-initialize audio UI (does not recreate audio element)
             initBackgroundAudio();
 
-            // Re-run layout/navigation initializers to ensure header/nav are positioned
+            // Re-run only content-dependent initializers (accordions, reveals, scroll handlers, lazy media)
             try {
-                initHeaderNavLayout && initHeaderNavLayout();
-                initMobileNavigation && initMobileNavigation();
-                initInteractiveEffects && initInteractiveEffects();
-                initClickableEntries && initClickableEntries();
                 initLazyLoading && initLazyLoading();
+                initClickableEntries && initClickableEntries();
+                // initInteractiveEffects contains both global and content-specific effects;
+                // call only the parts that are content-dependent if available. For safety,
+                // call the whole function only if it is written to be idempotent for globals.
+                if (typeof initInteractiveEffects === 'function') {
+                    try { initInteractiveEffects(); } catch (e) { console.warn('initInteractiveEffects error (non-fatal):', e); }
+                }
             } catch (e) {
-                console.warn('Error re-initializing modules after PJAX:', e);
+                console.warn('Error re-initializing content modules after PJAX:', e);
             }
 
-            // Give the browser a chance to reflow and then trigger a resize event
-            requestAnimationFrame(() => {
-                try { window.dispatchEvent(new Event('resize')); } catch (e) {}
-            });
+            // Delay global layout initializers slightly to avoid race conditions with parsing/paint
+            const _delayedReinit = () => {
+                try {
+                    initHeaderNavLayout && initHeaderNavLayout();
+                } catch (e) { console.warn('initHeaderNavLayout error:', e); }
+                try {
+                    initMobileNavigation && initMobileNavigation();
+                } catch (e) { console.warn('initMobileNavigation error:', e); }
 
-            // Emit a custom event for other listeners
-            try { document.dispatchEvent(new CustomEvent('pjax:loaded', {detail:{url:path}})); } catch (e) {}
+                // Trigger a resize event so sticky positioning and height calculations recompute
+                try { window.dispatchEvent(new Event('resize')); } catch (e) {}
+
+                // Emit a custom event for other listeners
+                try { document.dispatchEvent(new CustomEvent('pjax:loaded', {detail:{url:path}})); } catch (e) {}
+            };
+
+            // Use requestAnimationFrame + small timeout as a robust delay across browsers
+            requestAnimationFrame(() => setTimeout(_delayedReinit, 80));
+
+            // Capture DOM snapshot after injection (diagnostic)
+            try { _captureDomSnapshot('after-inject'); } catch (e) {}
 
             // Push or replace history
             const path = url;
