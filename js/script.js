@@ -729,7 +729,6 @@ function initPjaxNavigation() {
 }
 
 async function pjaxNavigate(url, opts = {}) {
-    const path = url;
     try {
         const response = await fetch(url, {credentials: 'same-origin'});
         if (!response.ok) {
@@ -741,20 +740,15 @@ async function pjaxNavigate(url, opts = {}) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
 
-        // Remove any shell-level audio or header/nav elements that might exist in full-page
-        // responses so we only extract the intended fragment.
-        try { doc.querySelectorAll && doc.querySelectorAll('#backgroundAudio, header, .top-nav, nav, .container').forEach(n => n.remove()); } catch (e) {}
-
-        // Prefer replacing only the main.content.frame-panel to preserve header/nav and mobile nav
-        const newMain = doc.querySelector('main.main-content.frame-panel') || doc.querySelector('.main-content');
-        const curMain = document.querySelector('main.main-content.frame-panel') || document.querySelector('.main-content');
+        // Prefer replacing only the main content to preserve header/nav and mobile nav
+        const newMain = doc.querySelector('.main-content');
+        const curMain = document.querySelector('.main-content');
 
         if (newMain && curMain) {
             // Remove any background audio elements from the fetched content
             try { newMain.querySelectorAll && newMain.querySelectorAll('#backgroundAudio').forEach(n => n.remove()); } catch (e) {}
 
             // Replace only the main content (keeps header/nav outside the replacement)
-            // IMPORTANT: use replace, not append — overwrite existing main content.
             curMain.innerHTML = newMain.innerHTML;
 
             // Ensure the main container is visible (remove any intro hide class)

@@ -1,12 +1,91 @@
-<!-- Fragment: main-content for education (loaded via PJAX into index shell) -->
-<main class="main-content frame-panel">
-  <section id="education" class="content-section active">
-    <div class="section-header">
-      <h2>Education</h2>
-      <div class="section-line"></div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Education — Brian Krawitz</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="console-wrapper">
+      <div class="console-grid"></div>
+      <div class="console-mask-top"></div>
+      <div class="console-mask-bottom"></div>
+      <div class="console-mask-left"></div>
+      <div class="console-mask-right"></div>
+      <div class="console-border"></div>
+      <div class="console-corner top-left"></div>
+      <div class="console-corner top-right"></div>
+      <div class="console-corner bottom-left"></div>
+      <div class="console-corner bottom-right"></div>
+      <div class="console-panel header-panel"></div>
+      <div class="console-panel nav-panel"></div>
+      <div class="console-panel content-panel"></div>
+      <div class="console-status-indicator"></div>
+      <div class="console-data-stream"></div>
+  </div>
+
+  <!-- Background Audio (shared) -->
+  <audio id="backgroundAudio" loop preload="none">
+    <source src="assets/audio/Music_optimized.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Audio Control Button -->
+  <div id="audioControl" class="audio-control">
+    <button id="playAudioBtn" class="audio-btn">
+      <i class="fas fa-volume-mute"></i>
+      <span>Enable Audio</span>
+    </button>
+  </div>
+
+  <div class="container">
+  <div class="frame-inner">
+  <header class="header">
+    <div class="header-content">
+      <div class="header-card frame-panel">
+        <div class="header-content-wrapper">
+          <div class="header-profile">
+            <img src="images/bkai.jpg?v=4" alt="Brian Krawitz" class="profile-picture">
+          </div>
+          <div class="header-text">
+            <h1 class="name">Brian Krawitz</h1>
+            <p class="quote">"Bridging the gap between imagination and reality"</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="education-showcase">
-      <p>Education and certifications information.</p>
+  </header>
+    <div class="frame-panel nav-frame">
+    <nav class="top-nav neural">
+      <div class="nav-container">
+        <ul class="nav-tabs">
+          <li><a href="about.html" class="nav-tab"><i class="fas fa-user-astronaut"></i><span class="nav-label">Mission</span></a></li>
+          <li><a href="experience.html" class="nav-tab"><i class="fas fa-briefcase"></i><span class="nav-label">Experience</span></a></li>
+          <li><a href="portfolio.html" class="nav-tab"><i class="fas fa-rocket"></i><span class="nav-label">Portfolio</span></a></li>
+          <li><a href="education.html" class="nav-tab active"><i class="fas fa-graduation-cap"></i><span class="nav-label">Education</span></a></li>
+          <li><a href="contact.html" class="nav-tab"><i class="fas fa-envelope"></i><span class="nav-label">Contact</span></a></li>
+        </ul>
+      </div>
+    </nav>
     </div>
-  </section>
-</main>
+  </div>
+
+  <main class="main-content frame-panel">
+    <section id="education" class="content-section">
+      <div class="section-header">
+        <h2>Education</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="education-showcase">
+        <p>Education and certifications information.</p>
+      </div>
+    </section>
+  </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
